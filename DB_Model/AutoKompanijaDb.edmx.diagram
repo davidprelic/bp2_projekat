@@ -17,9 +17,9 @@
         <InheritanceConnector EntityType="AutoKompanijaDb.Lizing" />
         <EntityTypeShape EntityType="AutoKompanijaDb.Kes" Width="1.5" PointX="12.375" PointY="1.625" />
         <InheritanceConnector EntityType="AutoKompanijaDb.Kes" ManuallyRouted="true" >
-          <ConnectorPoint PointX="11.25" PointY="5.8750000000000009" />
-          <ConnectorPoint PointX="11.25" PointY="3.3895350342234618" />
-          <ConnectorPoint PointX="13.125" PointY="3.3895350342234618" />
+          <ConnectorPoint PointX="11.25" PointY="5.875" />
+          <ConnectorPoint PointX="11.25" PointY="3.5634690837181413" />
+          <ConnectorPoint PointX="13.125" PointY="3.5634690837181413" />
           <ConnectorPoint PointX="13.125" PointY="2.836080729166667" />
         </InheritanceConnector>
         <EntityTypeShape EntityType="AutoKompanijaDb.Zaposljava" Width="1.75" PointX="3.125" PointY="0.75" />

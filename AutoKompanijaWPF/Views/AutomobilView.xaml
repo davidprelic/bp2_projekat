@@ -47,10 +47,10 @@
         <Label Content="KupacId:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,351,0,0" FontSize="14" Foreground="Black" Height="36" Width="106" FontWeight="Bold" />
         <Label Content="AutoId:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,375,0,0" FontSize="14" Foreground="Black" Height="36" Width="75" FontWeight="Bold" />
 
-        <ComboBox ItemsSource="{Binding ComboBoxData}"  SelectedValue="{Binding TypeText}" SelectedItem="{Binding AddItemType, Mode=TwoWay}" HorizontalAlignment="Left" Margin="91,351,0,0" VerticalAlignment="Top" Width="119" Height="25" Background="#FF7ED3D3" BorderBrush="#FFE8E6E6" />
-        <ComboBox ItemsSource="{Binding ComboBoxData}"  SelectedValue="{Binding TypeText}" SelectedItem="{Binding AddItemType, Mode=TwoWay}" HorizontalAlignment="Left" Margin="91,381,0,0" VerticalAlignment="Top" Width="119" Height="25" Background="#FF7ED3D3" BorderBrush="#FFE8E6E6" />
+        <ComboBox ItemsSource="{Binding ComboBoxKupci}"  SelectedValue="{Binding KupacTypeText}" SelectedItem="{Binding KupacAddItemType, Mode=TwoWay}" HorizontalAlignment="Left" Margin="91,351,0,0" VerticalAlignment="Top" Width="119" Height="25" Background="#FF7ED3D3" BorderBrush="#FFE8E6E6" />
+        <ComboBox ItemsSource="{Binding ComboBoxAutomobili}"  SelectedValue="{Binding AutomobilTypeText}" SelectedItem="{Binding AutomobilAddItemType, Mode=TwoWay}" HorizontalAlignment="Left" Margin="91,381,0,0" VerticalAlignment="Top" Width="119" Height="25" Background="#FF7ED3D3" BorderBrush="#FFE8E6E6" />
 
-        <Button Content="Naruci" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="22" Command="{Binding EditCommand}" Background="#FFF0F0F0" Margin="10,411,0,0"/>
+        <Button Content="Naruci" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="22" Command="{Binding NaruciCommand}" Background="#FFF0F0F0" Margin="10,411,0,0"/>
 
 
     </Grid>

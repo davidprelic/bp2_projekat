@@ -23,10 +23,15 @@ namespace AutoKompanijaWPF.ViewModel
         private int typeText;
         private int izmenaAddItemType;
         private int izmenaTypeText;
+        private int kupacAddItemType;
+        private int kupacTypeText;
+        private int automobilAddItemType;
+        private int automobilTypeText;
 
         public MyICommand AddCommand { get; set; }
         public MyICommand DeleteCommand { get; set; }
         public MyICommand EditCommand { get; set; }
+        public MyICommand NaruciCommand { get; set; }
 
         private int cenaText;
         private string markaText;
@@ -35,6 +40,8 @@ namespace AutoKompanijaWPF.ViewModel
         private string izmenaMarkaTekst;
         private string izmenaModelTekst;
         public List<int> ComboBoxData { get; set; }
+        public List<int> ComboBoxKupci { get; set; } = new List<int>();
+        public List<int> ComboBoxAutomobili { get; set; } = new List<int>();
 
         #endregion
 
@@ -54,9 +61,31 @@ namespace AutoKompanijaWPF.ViewModel
 
             AddItemType = ComboBoxData[0];
 
+            List<Kupac> listaKupaca = context.Kupacs.ToList();
+            ComboBoxKupci.Add(0);
+            foreach (var kupac in listaKupaca)
+            {
+                ComboBoxKupci.Add(kupac.Id);
+            }
+
+            KupacAddItemType = ComboBoxKupci[0];
+
+            List<Automobil> listaAutomobila = context.Automobils.ToList();
+            ComboBoxAutomobili.Add(0);
+            foreach (var auto in listaAutomobila)
+            {
+                if(auto.DatumNarucivanja == null)
+                {
+                    ComboBoxAutomobili.Add(auto.Id);
+                }
+            }
+
+            AutomobilAddItemType = ComboBoxAutomobili[0];
+
             AddCommand = new MyICommand(OnAdd, CanAdd);
             DeleteCommand = new MyICommand(OnDelete, CanDelete);
             EditCommand = new MyICommand(OnEdit, CanEdit);
+            NaruciCommand = new MyICommand(OnNaruci, CanNaruci);
             Automobili = new ObservableCollection<Automobil>(new AutoKompanijaDbContext().Automobils.ToList());
         }
         #endregion
@@ -107,6 +136,32 @@ namespace AutoKompanijaWPF.ViewModel
             }
         }
 
+        public int KupacAddItemType
+        {
+            get { return kupacAddItemType; }
+            set
+            {
+                if (kupacAddItemType != value)
+                {
+                    kupacAddItemType = value;
+                    OnPropertyChanged("KupacAddItemType");
+                }
+            }
+        }
+
+        public int AutomobilAddItemType
+        {
+            get { return automobilAddItemType; }
+            set
+            {
+                if (automobilAddItemType != value)
+                {
+                    automobilAddItemType = value;
+                    OnPropertyChanged("AutomobilAddItemType");
+                }
+            }
+        }
+
         public int TypeText
         {
             get { return typeText; }
@@ -116,6 +171,34 @@ namespace AutoKompanijaWPF.ViewModel
                 {
                     typeText = value;
                     OnPropertyChanged("TypeText");
+                }
+            }
+        }
+
+        public int KupacTypeText
+        {
+            get { return kupacTypeText; }
+            set
+            {
+                if (kupacTypeText != value)
+                {
+                    kupacTypeText = value;
+                    OnPropertyChanged("KupacTypeText");
+                    NaruciCommand.RaiseCanExecuteChanged();
+                }
+            }
+        }
+
+        public int AutomobilTypeText
+        {
+            get { return automobilTypeText; }
+            set
+            {
+                if (automobilTypeText != value)
+                {
+                    automobilTypeText = value;
+                    OnPropertyChanged("AutomobilTypeText");
+                    NaruciCommand.RaiseCanExecuteChanged();
                 }
             }
         }
@@ -387,7 +470,32 @@ namespace AutoKompanijaWPF.ViewModel
         }
         #endregion
 
+        #region NaruciFunctions
+        private void OnNaruci()
+        {
+            using (var db = new AutoKompanijaDbContext())
+            {
+                var automobilResult = db.Automobils.SingleOrDefault(a => a.Id == AutomobilTypeText);
+                var kupacResult = db.Kupacs.SingleOrDefault(a => a.Id == KupacTypeText);
+                if (automobilResult != null)
+                {
+                    automobilResult.DatumNarucivanja = DateTime.Now;
+                    automobilResult.KupacId = kupacResult.Id;
+                    db.SaveChanges();
+                }
+            }
 
+            Automobili.Clear();
+            Automobili = new ObservableCollection<Automobil>(new AutoKompanijaDbContext().Automobils.ToList());
+        }
+
+        private bool CanNaruci()
+        {
+            if (AutomobilTypeText != 0 && KupacTypeText != 0)
+                return true;
+            return false;
+        }
+        #endregion
 
 
 
