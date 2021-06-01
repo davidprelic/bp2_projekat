@@ -1,0 +1,73 @@
+﻿<Window x:Class="AutoKompanijaWPF.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:AutoKompanijaWPF"
+        xmlns:views="clr-namespace:AutoKompanijaWPF.Views"
+        xmlns:viewModel="clr-namespace:AutoKompanijaWPF.ViewModel"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="550" Width="850">
+
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type viewModel:AutoKompanijaViewModel}">
+            <views:AutoKompanijaView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:AutomobilViewModel}">
+            <views:AutomobilView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:AutoSalonViewModel}">
+            <views:AutoSalonView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:KesViewModel}">
+            <views:KesView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:KreditViewModel}">
+            <views:KreditView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:KupacViewModel}">
+            <views:KupacView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:LizingViewModel}">
+            <views:LizingView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:PlacanjeViewModel}">
+            <views:PlacanjeView/>
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewModel:SluzbenikViewModel}">
+            <views:SluzbenikView/>
+        </DataTemplate>
+        
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+
+        <DockPanel Grid.Row="0" Margin="5">
+            <Menu Background="#FF044F9A" DockPanel.Dock="Top">
+                <MenuItem Header="AutoKompanije" Foreground="White" Command="{Binding NavCommand}"
+                          CommandParameter="autoKompanija"/>
+                <MenuItem Header="AutoSaloni" Foreground="White" Command="{Binding NavCommand}"
+                          CommandParameter="autoSalon"/>
+                <MenuItem Header="Sluzbenici" Foreground="White" Command="{Binding NavCommand}"
+                          CommandParameter="sluzbenik"/>
+                <MenuItem Header="Kupci" Foreground="White" Command="{Binding NavCommand}"
+                          CommandParameter="kupac"/>
+                <MenuItem Header="Automobili" Foreground="White" Command="{Binding NavCommand}"
+                          CommandParameter="automobil"/>
+                <MenuItem Header="Placanja" Foreground="White" Command="{Binding NavCommand}"
+                          CommandParameter="placanje"/>
+                <MenuItem Header="LizingPlacanja" Foreground="White" Command="{Binding NavCommand}"
+                          CommandParameter="lizing"/>
+                <MenuItem Header="KesPlacanja" Foreground="White" Command="{Binding NavCommand}"
+                          CommandParameter="kes"/>
+                <MenuItem Header="KreditPlacanja" Foreground="White" Command="{Binding NavCommand}"
+                          CommandParameter="kredit"/>
+            </Menu>
+        </DockPanel>
+
+        <ContentControl Grid.Row="1" Content="{Binding CurrentViewModel}" Grid.ColumnSpan="2" Margin="20,10,20,10" />
+    </Grid>
+</Window>

@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="AutoKompanijaWPF.Views.AutoSalonView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:AutoKompanijaWPF.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <DataGrid ItemsSource="{Binding AutoSaloni, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding CurrentIndex}" SelectedItem="{Binding SelectedAutoSalon}" CanUserAddRows="False" SelectionMode="Single" Height="438" Margin="230,0,15,0" VerticalAlignment="Top" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Id" Binding="{Binding Id, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="100" />
+                <DataGridTextColumn Header="BrojRaspolAutom" Binding="{Binding BrojRaspolozivihAutomobila, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="150" />
+                <DataGridTextColumn Header="Grad" Binding="{Binding Grad, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="150" />
+                <DataGridTextColumn Header="Ulica" Binding="{Binding Ulica, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="150" />
+            </DataGrid.Columns>
+        </DataGrid>
+        <Label Content="AutoKomp:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,10,0,0" FontSize="14" Foreground="Black" Height="36" Width="106" FontWeight="Bold" />
+        <Label Content="BrojRaspAuto:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,40,0,0" FontSize="14" Foreground="Black" Height="36" Width="106" FontWeight="Bold" />
+        <Label Content="Grad:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,67,0,0" FontSize="14" Foreground="Black" Height="40" Width="75" FontWeight="Bold" />
+        <Label Content="Ulica:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,98,0,0" FontSize="14" Foreground="Black" Height="40" Width="75" FontWeight="Bold" />
+        <TextBlock Text="{Binding CurrentECM.ValidationErrors[Name]}" Foreground="Red" Margin="0,-10,595,435" />
+        <TextBox Name="BrojRaspAutoText" HorizontalAlignment="Left" Height="22" Margin="106,46,0,0" TextWrapping="Wrap" Text="{Binding BrojRaspAutoText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="104" FontSize="14" TextAlignment="Center" Background="#FF044F9A" FontWeight="Bold" Foreground="White"/>
+        <TextBox Name="GradText" HorizontalAlignment="Left" Height="22" Margin="70,76,0,0" TextWrapping="Wrap" Text="{Binding GradText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="140" FontSize="14" TextAlignment="Center" Background="#FF044F9A" FontWeight="Bold" Foreground="White"/>
+        <TextBox Name="UlicaText" HorizontalAlignment="Left" Height="22" Margin="70,103,0,0" TextWrapping="Wrap" Text="{Binding UlicaText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="140" FontSize="14" TextAlignment="Center" Background="#FF044F9A" FontWeight="Bold" Foreground="White"/>
+        <ComboBox ItemsSource="{Binding ComboBoxData}"  SelectedValue="{Binding TypeText}" SelectedItem="{Binding AddItemType, Mode=TwoWay}" HorizontalAlignment="Left" Margin="91,15,0,0" VerticalAlignment="Top" Width="119" Height="25" Background="#FF7ED3D3" BorderBrush="#FFE8E6E6" />
+
+
+        <Button Content="Dodaj" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="22" Command="{Binding AddCommand}" Background="#FFF0F0F0" Margin="10,138,0,0"/>
+        <Button Content="Obrisi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="24" Command="{Binding DeleteCommand}" Background="#FFF0F0F0" Margin="10,165,0,0"/>
+
+        <Label Content="Izaberite red u tabeli za izmenu:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,194,0,0" FontSize="14" Foreground="Black" Height="29" Width="220" FontWeight="Bold" />
+        <Label Content="AutoKomp:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,223,0,0" FontSize="14" Foreground="Black" Height="36" Width="106" FontWeight="Bold" />
+        <Label Content="BrojRaspAuto:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,252,0,0" FontSize="14" Foreground="Black" Height="36" Width="106" FontWeight="Bold" />
+        <Label Content="Grad:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,278,0,0" FontSize="14" Foreground="Black" Height="40" Width="75" FontWeight="Bold" />
+        <Label Content="Ulica:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,315,0,0" FontSize="14" Foreground="Black" Height="36" Width="70" FontWeight="Bold" />
+        <TextBlock Text="{Binding CurrentECM.ValidationErrors[Name]}" Foreground="Red" Margin="0,189,595,236" />
+        <TextBox Name="IzmenaBrojRaspAutoText" HorizontalAlignment="Left" Height="22" Margin="106,257,0,0" TextWrapping="Wrap" Text="{Binding IzmenaBrojRaspAutoTekst, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="104" FontSize="14" TextAlignment="Center" Background="#FF044F9A" FontWeight="Bold" Foreground="White"/>
+        <TextBox Name="IzmenaGradText" HorizontalAlignment="Left" Height="22" Margin="70,288,0,0" TextWrapping="Wrap" Text="{Binding IzmenaGradTekst, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="140" FontSize="14" TextAlignment="Center" Background="#FF044F9A" FontWeight="Bold" Foreground="White"/>
+        <TextBox Name="IzmenaUlicaText" HorizontalAlignment="Left" Height="22" Margin="70,318,0,0" TextWrapping="Wrap" Text="{Binding IzmenaUlicaTekst, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="140" FontSize="14" TextAlignment="Center" Background="#FF044F9A" FontWeight="Bold" Foreground="White"/>
+        <ComboBox ItemsSource="{Binding ComboBoxData}"  SelectedValue="{Binding IzmenaTypeText}" SelectedItem="{Binding IzmenaAddItemType, Mode=TwoWay}" HorizontalAlignment="Left" Margin="91,228,0,0" VerticalAlignment="Top" Width="119" Height="24" Background="#FF7ED3D3" BorderBrush="#FFE8E6E6" />
+
+
+        <Button Content="Izmeni" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="22" Command="{Binding EditCommand}" Background="#FFF0F0F0" Margin="10,356,0,0"/>
+
+
+
+    </Grid>
+</UserControl>

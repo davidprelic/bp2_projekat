@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="5066c5b8369e4157ad777c30b7b613ab" Name="Diagram1" ZoomLevel="86" >
+        <EntityTypeShape EntityType="AutoKompanijaDb.AutoKompanija" Width="1.5" PointX="5.875" PointY="0.5" />
+        <EntityTypeShape EntityType="AutoKompanijaDb.AutoSalon" Width="1.75" PointX="5.625" PointY="3.5" />
+        <EntityTypeShape EntityType="AutoKompanijaDb.Sluzbenik" Width="1.5" PointX="0.5" PointY="0.75" />
+        <EntityTypeShape EntityType="AutoKompanijaDb.Kupac" Width="1.5" PointX="0.625" PointY="6.625" />
+        <EntityTypeShape EntityType="AutoKompanijaDb.Automobil" Width="1.75" PointX="5.625" PointY="6.875" />
+        <EntityTypeShape EntityType="AutoKompanijaDb.Placanje" Width="1.5" PointX="10.5" PointY="5.875" />
+        <EntityTypeShape EntityType="AutoKompanijaDb.Kredit" Width="1.5" PointX="8.25" PointY="1.625" />
+        <InheritanceConnector EntityType="AutoKompanijaDb.Kredit" />
+        <EntityTypeShape EntityType="AutoKompanijaDb.Lizing" Width="1.5" PointX="10.375" PointY="1.625" />
+        <InheritanceConnector EntityType="AutoKompanijaDb.Lizing" />
+        <EntityTypeShape EntityType="AutoKompanijaDb.Kes" Width="1.5" PointX="12.375" PointY="1.625" />
+        <InheritanceConnector EntityType="AutoKompanijaDb.Kes" ManuallyRouted="true" >
+          <ConnectorPoint PointX="11.25" PointY="5.8750000000000009" />
+          <ConnectorPoint PointX="11.25" PointY="3.3895350342234618" />
+          <ConnectorPoint PointX="13.125" PointY="3.3895350342234618" />
+          <ConnectorPoint PointX="13.125" PointY="2.836080729166667" />
+        </InheritanceConnector>
+        <EntityTypeShape EntityType="AutoKompanijaDb.Zaposljava" Width="1.75" PointX="3.125" PointY="0.75" />
+        <AssociationConnector Association="AutoKompanijaDb.AutoKompanijaZaposljava" />
+        <AssociationConnector Association="AutoKompanijaDb.ZaposljavaSluzbenik" />
+        <EntityTypeShape EntityType="AutoKompanijaDb.Pregovara" Width="1.5" PointX="0.5" PointY="3.875" />
+        <AssociationConnector Association="AutoKompanijaDb.SluzbenikPregovara" />
+        <AssociationConnector Association="AutoKompanijaDb.KupacPregovara" />
+        <AssociationConnector Association="AutoKompanijaDb.AutoKompanijaAutoSalon" />
+        <AssociationConnector Association="AutoKompanijaDb.AutoSalonAutomobil" />
+        <AssociationConnector Association="AutoKompanijaDb.KupacAutomobil" />
+        <AssociationConnector Association="AutoKompanijaDb.AutomobilPlacanje" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1145
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DB_Model", "DB_Model\DB_Model.csproj", "{429E39B5-4CB4-4EA4-8B05-9462EA01357B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoKompanijaWPF", "AutoKompanijaWPF\AutoKompanijaWPF.csproj", "{BC8ABEEC-474E-4062-917E-D5E944D8CAB6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{429E39B5-4CB4-4EA4-8B05-9462EA01357B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{429E39B5-4CB4-4EA4-8B05-9462EA01357B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{429E39B5-4CB4-4EA4-8B05-9462EA01357B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{429E39B5-4CB4-4EA4-8B05-9462EA01357B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC8ABEEC-474E-4062-917E-D5E944D8CAB6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC8ABEEC-474E-4062-917E-D5E944D8CAB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC8ABEEC-474E-4062-917E-D5E944D8CAB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC8ABEEC-474E-4062-917E-D5E944D8CAB6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0B64536D-81AD-4086-A3CD-7EFC5D24FBC0}
+	EndGlobalSection
+EndGlobal

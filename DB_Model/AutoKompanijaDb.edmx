@@ -1,0 +1,665 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="AutoKompanijaDb.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2012" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="AutoKompanijaDbStoreContainer">
+    <EntitySet Name="AutoKompanijas" EntityType="AutoKompanijaDb.Store.AutoKompanijas" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AutoSalons" EntityType="AutoKompanijaDb.Store.AutoSalons" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Sluzbeniks" EntityType="AutoKompanijaDb.Store.Sluzbeniks" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Kupacs" EntityType="AutoKompanijaDb.Store.Kupacs" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Automobils" EntityType="AutoKompanijaDb.Store.Automobils" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Placanjes" EntityType="AutoKompanijaDb.Store.Placanjes" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Zaposljavas" EntityType="AutoKompanijaDb.Store.Zaposljavas" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Pregovaras" EntityType="AutoKompanijaDb.Store.Pregovaras" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Placanjes_Kredit" EntityType="AutoKompanijaDb.Store.Placanjes_Kredit" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Placanjes_Lizing" EntityType="AutoKompanijaDb.Store.Placanjes_Lizing" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Placanjes_Kes" EntityType="AutoKompanijaDb.Store.Placanjes_Kes" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="AutoKompanijaZaposljava" Association="AutoKompanijaDb.Store.AutoKompanijaZaposljava">
+      <End Role="AutoKompanija" EntitySet="AutoKompanijas" />
+      <End Role="Zaposljava" EntitySet="Zaposljavas" />
+    </AssociationSet>
+    <AssociationSet Name="ZaposljavaSluzbenik" Association="AutoKompanijaDb.Store.ZaposljavaSluzbenik">
+      <End Role="Zaposljava" EntitySet="Zaposljavas" />
+      <End Role="Sluzbenik" EntitySet="Sluzbeniks" />
+    </AssociationSet>
+    <AssociationSet Name="SluzbenikPregovara" Association="AutoKompanijaDb.Store.SluzbenikPregovara">
+      <End Role="Sluzbenik" EntitySet="Sluzbeniks" />
+      <End Role="Pregovara" EntitySet="Pregovaras" />
+    </AssociationSet>
+    <AssociationSet Name="KupacPregovara" Association="AutoKompanijaDb.Store.KupacPregovara">
+      <End Role="Kupac" EntitySet="Kupacs" />
+      <End Role="Pregovara" EntitySet="Pregovaras" />
+    </AssociationSet>
+    <AssociationSet Name="AutoKompanijaAutoSalon" Association="AutoKompanijaDb.Store.AutoKompanijaAutoSalon">
+      <End Role="AutoKompanija" EntitySet="AutoKompanijas" />
+      <End Role="AutoSalon" EntitySet="AutoSalons" />
+    </AssociationSet>
+    <AssociationSet Name="AutoSalonAutomobil" Association="AutoKompanijaDb.Store.AutoSalonAutomobil">
+      <End Role="AutoSalon" EntitySet="AutoSalons" />
+      <End Role="Automobil" EntitySet="Automobils" />
+    </AssociationSet>
+    <AssociationSet Name="KupacAutomobil" Association="AutoKompanijaDb.Store.KupacAutomobil">
+      <End Role="Kupac" EntitySet="Kupacs" />
+      <End Role="Automobil" EntitySet="Automobils" />
+    </AssociationSet>
+    <AssociationSet Name="AutomobilPlacanje" Association="AutoKompanijaDb.Store.AutomobilPlacanje">
+      <End Role="Automobil" EntitySet="Automobils" />
+      <End Role="Placanje" EntitySet="Placanjes" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Kredit_inherits_Placanje" Association="AutoKompanijaDb.Store.FK_Kredit_inherits_Placanje">
+      <End Role="Placanje" EntitySet="Placanjes" />
+      <End Role="Kredit" EntitySet="Placanjes_Kredit" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Lizing_inherits_Placanje" Association="AutoKompanijaDb.Store.FK_Lizing_inherits_Placanje">
+      <End Role="Placanje" EntitySet="Placanjes" />
+      <End Role="Lizing" EntitySet="Placanjes_Lizing" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Kes_inherits_Placanje" Association="AutoKompanijaDb.Store.FK_Kes_inherits_Placanje">
+      <End Role="Placanje" EntitySet="Placanjes" />
+      <End Role="Kes" EntitySet="Placanjes_Kes" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="AutoKompanijas">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Naziv" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DatumOsnivanja" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="AutoSalons">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="AutoKompanijaId" Type="int" Nullable="false" />
+    <Property Name="BrojRaspolozivihAutomobila" Type="int" Nullable="false" />
+    <Property Name="Grad" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Ulica" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Sluzbeniks">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Ime" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Prezime" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="DatumZaposlenja" Type="datetime" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Kupacs">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Ime" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Prezime" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="OmiljeniAutomobil" Type="nvarchar(max)" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Automobils">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Marka" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Model" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Cena" Type="int" Nullable="false" />
+    <Property Name="AutoSalonId" Type="int" Nullable="true" />
+    <Property Name="KupacId" Type="int" Nullable="true" />
+    <Property Name="DatumNarucivanja" Type="datetime" Nullable="true" />
+  </EntityType>
+  <EntityType Name="Placanjes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="DatumPlacanja" Type="datetime" Nullable="false" />
+    <Property Name="AutomobilId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Zaposljavas">
+    <Key>
+      <PropertyRef Name="AutoKompanijaId" />
+      <PropertyRef Name="SluzbenikId" />
+    </Key>
+    <Property Name="AutoKompanijaId" Type="int" Nullable="false" />
+    <Property Name="SluzbenikId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Pregovaras">
+    <Key>
+      <PropertyRef Name="SluzbenikId" />
+      <PropertyRef Name="KupacId" />
+    </Key>
+    <Property Name="SluzbenikId" Type="int" Nullable="false" />
+    <Property Name="KupacId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Placanjes_Kredit">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="KamatnaStopa" Type="int" Nullable="false" />
+    <Property Name="PeriodOtplate" Type="int" Nullable="false" />
+    <Property Name="Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Placanjes_Lizing">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="RataLizingNaknade" Type="int" Nullable="false" />
+    <Property Name="VrstaLizinga" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Placanjes_Kes">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Vrednost" Type="int" Nullable="false" />
+    <Property Name="Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="AutoKompanijaZaposljava">
+    <End Role="AutoKompanija" Type="AutoKompanijaDb.Store.AutoKompanijas" Multiplicity="1" />
+    <End Role="Zaposljava" Type="AutoKompanijaDb.Store.Zaposljavas" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AutoKompanija">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Zaposljava">
+        <PropertyRef Name="AutoKompanijaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ZaposljavaSluzbenik">
+    <End Role="Zaposljava" Type="AutoKompanijaDb.Store.Zaposljavas" Multiplicity="*" />
+    <End Role="Sluzbenik" Type="AutoKompanijaDb.Store.Sluzbeniks" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Sluzbenik">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Zaposljava">
+        <PropertyRef Name="SluzbenikId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="SluzbenikPregovara">
+    <End Role="Sluzbenik" Type="AutoKompanijaDb.Store.Sluzbeniks" Multiplicity="1" />
+    <End Role="Pregovara" Type="AutoKompanijaDb.Store.Pregovaras" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Sluzbenik">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Pregovara">
+        <PropertyRef Name="SluzbenikId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="KupacPregovara">
+    <End Role="Kupac" Type="AutoKompanijaDb.Store.Kupacs" Multiplicity="1" />
+    <End Role="Pregovara" Type="AutoKompanijaDb.Store.Pregovaras" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Kupac">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Pregovara">
+        <PropertyRef Name="KupacId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AutoKompanijaAutoSalon">
+    <End Role="AutoKompanija" Type="AutoKompanijaDb.Store.AutoKompanijas" Multiplicity="1" />
+    <End Role="AutoSalon" Type="AutoKompanijaDb.Store.AutoSalons" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AutoKompanija">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AutoSalon">
+        <PropertyRef Name="AutoKompanijaId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AutoSalonAutomobil">
+    <End Role="AutoSalon" Type="AutoKompanijaDb.Store.AutoSalons" Multiplicity="0..1" />
+    <End Role="Automobil" Type="AutoKompanijaDb.Store.Automobils" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="AutoSalon">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Automobil">
+        <PropertyRef Name="AutoSalonId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="KupacAutomobil">
+    <End Role="Kupac" Type="AutoKompanijaDb.Store.Kupacs" Multiplicity="0..1" />
+    <End Role="Automobil" Type="AutoKompanijaDb.Store.Automobils" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Kupac">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Automobil">
+        <PropertyRef Name="KupacId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AutomobilPlacanje">
+    <End Role="Automobil" Type="AutoKompanijaDb.Store.Automobils" Multiplicity="1" />
+    <End Role="Placanje" Type="AutoKompanijaDb.Store.Placanjes" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Automobil">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Placanje">
+        <PropertyRef Name="AutomobilId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Kredit_inherits_Placanje">
+    <End Role="Placanje" Type="AutoKompanijaDb.Store.Placanjes" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Kredit" Type="AutoKompanijaDb.Store.Placanjes_Kredit" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Placanje">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Kredit">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Lizing_inherits_Placanje">
+    <End Role="Placanje" Type="AutoKompanijaDb.Store.Placanjes" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Lizing" Type="AutoKompanijaDb.Store.Placanjes_Lizing" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Placanje">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Lizing">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Kes_inherits_Placanje">
+    <End Role="Placanje" Type="AutoKompanijaDb.Store.Placanjes" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="Kes" Type="AutoKompanijaDb.Store.Placanjes_Kes" Multiplicity="0..1" />
+    <ReferentialConstraint>
+      <Principal Role="Placanje">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Kes">
+        <PropertyRef Name="Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema xmlns="http://schemas.microsoft.com/ado/2009/11/edm" xmlns:cg="http://schemas.microsoft.com/ado/2006/04/codegeneration" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" Namespace="AutoKompanijaDb" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" annotation:UseStrongSpatialTypes="false">
+        <EntityContainer Name="AutoKompanijaDbContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AutoKompanijas" EntityType="AutoKompanijaDb.AutoKompanija" />
+          <EntitySet Name="AutoSalons" EntityType="AutoKompanijaDb.AutoSalon" />
+          <EntitySet Name="Sluzbeniks" EntityType="AutoKompanijaDb.Sluzbenik" />
+          <EntitySet Name="Kupacs" EntityType="AutoKompanijaDb.Kupac" />
+          <EntitySet Name="Automobils" EntityType="AutoKompanijaDb.Automobil" />
+          <EntitySet Name="Placanjes" EntityType="AutoKompanijaDb.Placanje" />
+          <EntitySet Name="Zaposljavas" EntityType="AutoKompanijaDb.Zaposljava" />
+          <AssociationSet Name="AutoKompanijaZaposljava" Association="AutoKompanijaDb.AutoKompanijaZaposljava">
+            <End Role="AutoKompanija" EntitySet="AutoKompanijas" />
+            <End Role="Zaposljava" EntitySet="Zaposljavas" />
+          </AssociationSet>
+          <AssociationSet Name="ZaposljavaSluzbenik" Association="AutoKompanijaDb.ZaposljavaSluzbenik">
+            <End Role="Zaposljava" EntitySet="Zaposljavas" />
+            <End Role="Sluzbenik" EntitySet="Sluzbeniks" />
+          </AssociationSet>
+          <EntitySet Name="Pregovaras" EntityType="AutoKompanijaDb.Pregovara" />
+          <AssociationSet Name="SluzbenikPregovara" Association="AutoKompanijaDb.SluzbenikPregovara">
+            <End Role="Sluzbenik" EntitySet="Sluzbeniks" />
+            <End Role="Pregovara" EntitySet="Pregovaras" />
+          </AssociationSet>
+          <AssociationSet Name="KupacPregovara" Association="AutoKompanijaDb.KupacPregovara">
+            <End Role="Kupac" EntitySet="Kupacs" />
+            <End Role="Pregovara" EntitySet="Pregovaras" />
+          </AssociationSet>
+          <AssociationSet Name="AutoKompanijaAutoSalon" Association="AutoKompanijaDb.AutoKompanijaAutoSalon">
+            <End Role="AutoKompanija" EntitySet="AutoKompanijas" />
+            <End Role="AutoSalon" EntitySet="AutoSalons" />
+          </AssociationSet>
+          <AssociationSet Name="AutoSalonAutomobil" Association="AutoKompanijaDb.AutoSalonAutomobil">
+            <End Role="AutoSalon" EntitySet="AutoSalons" />
+            <End Role="Automobil" EntitySet="Automobils" />
+          </AssociationSet>
+          <AssociationSet Name="KupacAutomobil" Association="AutoKompanijaDb.KupacAutomobil">
+            <End Role="Kupac" EntitySet="Kupacs" />
+            <End Role="Automobil" EntitySet="Automobils" />
+          </AssociationSet>
+          <AssociationSet Name="AutomobilPlacanje" Association="AutoKompanijaDb.AutomobilPlacanje">
+            <End Role="Automobil" EntitySet="Automobils" />
+            <End Role="Placanje" EntitySet="Placanjes" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="AutoKompanija">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Naziv" Type="String" Nullable="false" />
+          <Property Name="DatumOsnivanja" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Zaposljavas" Relationship="AutoKompanijaDb.AutoKompanijaZaposljava" FromRole="AutoKompanija" ToRole="Zaposljava" />
+          <NavigationProperty Name="AutoSalons" Relationship="AutoKompanijaDb.AutoKompanijaAutoSalon" FromRole="AutoKompanija" ToRole="AutoSalon" />
+        </EntityType>
+        <EntityType Name="AutoSalon">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="AutoKompanija" Relationship="AutoKompanijaDb.AutoKompanijaAutoSalon" FromRole="AutoSalon" ToRole="AutoKompanija" />
+          <Property Name="AutoKompanijaId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Automobils" Relationship="AutoKompanijaDb.AutoSalonAutomobil" FromRole="AutoSalon" ToRole="Automobil" />
+          <Property Name="BrojRaspolozivihAutomobila" Type="Int32" Nullable="false" />
+          <Property Name="Grad" Type="String" Nullable="false" />
+          <Property Name="Ulica" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Sluzbenik">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ime" Type="String" Nullable="false" />
+          <Property Name="Prezime" Type="String" Nullable="false" />
+          <Property Name="DatumZaposlenja" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Zaposljavas" Relationship="AutoKompanijaDb.ZaposljavaSluzbenik" FromRole="Sluzbenik" ToRole="Zaposljava" />
+          <NavigationProperty Name="Pregovaras" Relationship="AutoKompanijaDb.SluzbenikPregovara" FromRole="Sluzbenik" ToRole="Pregovara" />
+        </EntityType>
+        <EntityType Name="Kupac">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Ime" Type="String" Nullable="false" />
+          <Property Name="Prezime" Type="String" Nullable="false" />
+          <Property Name="OmiljeniAutomobil" Type="String" Nullable="false" />
+          <NavigationProperty Name="Pregovaras" Relationship="AutoKompanijaDb.KupacPregovara" FromRole="Kupac" ToRole="Pregovara" />
+          <NavigationProperty Name="Automobils" Relationship="AutoKompanijaDb.KupacAutomobil" FromRole="Kupac" ToRole="Automobil" />
+        </EntityType>
+        <EntityType Name="Automobil">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Marka" Type="String" Nullable="false" />
+          <Property Name="Model" Type="String" Nullable="false" />
+          <Property Name="Cena" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="AutoSalon" Relationship="AutoKompanijaDb.AutoSalonAutomobil" FromRole="Automobil" ToRole="AutoSalon" />
+          <Property Name="AutoSalonId" Type="Int32" Nullable="true" />
+          <NavigationProperty Name="Kupac" Relationship="AutoKompanijaDb.KupacAutomobil" FromRole="Automobil" ToRole="Kupac" />
+          <Property Name="KupacId" Type="Int32" Nullable="true" />
+          <Property Name="DatumNarucivanja" Type="DateTime" Nullable="true" />
+          <NavigationProperty Name="Placanjes" Relationship="AutoKompanijaDb.AutomobilPlacanje" FromRole="Automobil" ToRole="Placanje" />
+        </EntityType>
+        <EntityType Name="Placanje">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="DatumPlacanja" Type="DateTime" Nullable="false" />
+          <NavigationProperty Name="Automobil" Relationship="AutoKompanijaDb.AutomobilPlacanje" FromRole="Placanje" ToRole="Automobil" />
+          <Property Name="AutomobilId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Kredit" BaseType="AutoKompanijaDb.Placanje" >
+          <Property Name="KamatnaStopa" Type="Int32" Nullable="false" />
+          <Property Name="PeriodOtplate" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Lizing" BaseType="AutoKompanijaDb.Placanje" >
+          <Property Name="RataLizingNaknade" Type="Int32" Nullable="false" />
+          <Property Name="VrstaLizinga" Type="String" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Kes" BaseType="AutoKompanijaDb.Placanje" >
+          <Property Name="Vrednost" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Zaposljava" >
+          <Key>
+            <PropertyRef Name="AutoKompanijaId" />
+            <PropertyRef Name="SluzbenikId" />
+          </Key>
+          <NavigationProperty Name="AutoKompanija" Relationship="AutoKompanijaDb.AutoKompanijaZaposljava" FromRole="Zaposljava" ToRole="AutoKompanija" />
+          <Property Name="AutoKompanijaId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Sluzbenik" Relationship="AutoKompanijaDb.ZaposljavaSluzbenik" FromRole="Zaposljava" ToRole="Sluzbenik" />
+          <Property Name="SluzbenikId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="AutoKompanijaZaposljava">
+          <End Type="AutoKompanijaDb.AutoKompanija" Role="AutoKompanija" Multiplicity="1" />
+          <End Type="AutoKompanijaDb.Zaposljava" Role="Zaposljava" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AutoKompanija">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Zaposljava">
+              <PropertyRef Name="AutoKompanijaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ZaposljavaSluzbenik">
+          <End Type="AutoKompanijaDb.Zaposljava" Role="Zaposljava" Multiplicity="*" />
+          <End Type="AutoKompanijaDb.Sluzbenik" Role="Sluzbenik" Multiplicity="1" />
+          <ReferentialConstraint>
+            <Principal Role="Sluzbenik">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Zaposljava">
+              <PropertyRef Name="SluzbenikId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Pregovara" >
+          <Key>
+            <PropertyRef Name="SluzbenikId" />
+            <PropertyRef Name="KupacId" />
+          </Key>
+          <NavigationProperty Name="Sluzbenik" Relationship="AutoKompanijaDb.SluzbenikPregovara" FromRole="Pregovara" ToRole="Sluzbenik" />
+          <Property Name="SluzbenikId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Kupac" Relationship="AutoKompanijaDb.KupacPregovara" FromRole="Pregovara" ToRole="Kupac" />
+          <Property Name="KupacId" Type="Int32" Nullable="false" />
+        </EntityType>
+        <Association Name="SluzbenikPregovara">
+          <End Type="AutoKompanijaDb.Sluzbenik" Role="Sluzbenik" Multiplicity="1" />
+          <End Type="AutoKompanijaDb.Pregovara" Role="Pregovara" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sluzbenik">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Pregovara">
+              <PropertyRef Name="SluzbenikId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="KupacPregovara">
+          <End Type="AutoKompanijaDb.Kupac" Role="Kupac" Multiplicity="1" />
+          <End Type="AutoKompanijaDb.Pregovara" Role="Pregovara" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kupac">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Pregovara">
+              <PropertyRef Name="KupacId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AutoKompanijaAutoSalon">
+          <End Type="AutoKompanijaDb.AutoKompanija" Role="AutoKompanija" Multiplicity="1" />
+          <End Type="AutoKompanijaDb.AutoSalon" Role="AutoSalon" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AutoKompanija">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AutoSalon">
+              <PropertyRef Name="AutoKompanijaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AutoSalonAutomobil">
+          <End Type="AutoKompanijaDb.AutoSalon" Role="AutoSalon" Multiplicity="0..1" />
+          <End Type="AutoKompanijaDb.Automobil" Role="Automobil" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AutoSalon">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Automobil">
+              <PropertyRef Name="AutoSalonId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="KupacAutomobil">
+          <End Type="AutoKompanijaDb.Kupac" Role="Kupac" Multiplicity="0..1" />
+          <End Type="AutoKompanijaDb.Automobil" Role="Automobil" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Kupac">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Automobil">
+              <PropertyRef Name="KupacId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AutomobilPlacanje">
+          <End Type="AutoKompanijaDb.Automobil" Role="Automobil" Multiplicity="1" />
+          <End Type="AutoKompanijaDb.Placanje" Role="Placanje" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Automobil">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Placanje">
+              <PropertyRef Name="AutomobilId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+    <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="AutoKompanijaDbStoreContainer" CdmEntityContainer="AutoKompanijaDbContext">
+    <EntitySetMapping Name="AutoKompanijas">
+      <EntityTypeMapping TypeName="IsTypeOf(AutoKompanijaDb.AutoKompanija)">
+        <MappingFragment StoreEntitySet="AutoKompanijas">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Naziv" ColumnName="Naziv" />
+          <ScalarProperty Name="DatumOsnivanja" ColumnName="DatumOsnivanja" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="AutoSalons">
+      <EntityTypeMapping TypeName="IsTypeOf(AutoKompanijaDb.AutoSalon)">
+        <MappingFragment StoreEntitySet="AutoSalons">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="AutoKompanijaId" ColumnName="AutoKompanijaId" />
+          <ScalarProperty Name="BrojRaspolozivihAutomobila" ColumnName="BrojRaspolozivihAutomobila" />
+          <ScalarProperty Name="Grad" ColumnName="Grad" />
+          <ScalarProperty Name="Ulica" ColumnName="Ulica" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sluzbeniks">
+      <EntityTypeMapping TypeName="IsTypeOf(AutoKompanijaDb.Sluzbenik)">
+        <MappingFragment StoreEntitySet="Sluzbeniks">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Ime" ColumnName="Ime" />
+          <ScalarProperty Name="Prezime" ColumnName="Prezime" />
+          <ScalarProperty Name="DatumZaposlenja" ColumnName="DatumZaposlenja" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Kupacs">
+      <EntityTypeMapping TypeName="IsTypeOf(AutoKompanijaDb.Kupac)">
+        <MappingFragment StoreEntitySet="Kupacs">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Ime" ColumnName="Ime" />
+          <ScalarProperty Name="Prezime" ColumnName="Prezime" />
+          <ScalarProperty Name="OmiljeniAutomobil" ColumnName="OmiljeniAutomobil" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Automobils">
+      <EntityTypeMapping TypeName="IsTypeOf(AutoKompanijaDb.Automobil)">
+        <MappingFragment StoreEntitySet="Automobils">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Marka" ColumnName="Marka" />
+          <ScalarProperty Name="Model" ColumnName="Model" />
+          <ScalarProperty Name="Cena" ColumnName="Cena" />
+          <ScalarProperty Name="AutoSalonId" ColumnName="AutoSalonId" />
+          <ScalarProperty Name="KupacId" ColumnName="KupacId" />
+          <ScalarProperty Name="DatumNarucivanja" ColumnName="DatumNarucivanja" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Placanjes">
+      <EntityTypeMapping TypeName="IsTypeOf(AutoKompanijaDb.Placanje)">
+        <MappingFragment StoreEntitySet="Placanjes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="DatumPlacanja" ColumnName="DatumPlacanja" />
+          <ScalarProperty Name="AutomobilId" ColumnName="AutomobilId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(AutoKompanijaDb.Kredit)">
+        <MappingFragment StoreEntitySet="Placanjes_Kredit">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="KamatnaStopa" ColumnName="KamatnaStopa" />
+          <ScalarProperty Name="PeriodOtplate" ColumnName="PeriodOtplate" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(AutoKompanijaDb.Lizing)">
+        <MappingFragment StoreEntitySet="Placanjes_Lizing">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="RataLizingNaknade" ColumnName="RataLizingNaknade" />
+          <ScalarProperty Name="VrstaLizinga" ColumnName="VrstaLizinga" />
+        </MappingFragment>
+      </EntityTypeMapping>
+      <EntityTypeMapping TypeName="IsTypeOf(AutoKompanijaDb.Kes)">
+        <MappingFragment StoreEntitySet="Placanjes_Kes">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Vrednost" ColumnName="Vrednost" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Zaposljavas">
+      <EntityTypeMapping TypeName="IsTypeOf(AutoKompanijaDb.Zaposljava)">
+        <MappingFragment StoreEntitySet="Zaposljavas">
+          <ScalarProperty Name="AutoKompanijaId" ColumnName="AutoKompanijaId" />
+          <ScalarProperty Name="SluzbenikId" ColumnName="SluzbenikId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Pregovaras">
+      <EntityTypeMapping TypeName="IsTypeOf(AutoKompanijaDb.Pregovara)">
+        <MappingFragment StoreEntitySet="Pregovaras">
+          <ScalarProperty Name="SluzbenikId" ColumnName="SluzbenikId" />
+          <ScalarProperty Name="KupacId" ColumnName="KupacId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping></edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <edmx:Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </edmx:Connection>
+    <edmx:Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+        <DesignerProperty Name="UseLegacyProvider" Value="False" />
+      </DesignerInfoPropertySet>
+    </edmx:Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
