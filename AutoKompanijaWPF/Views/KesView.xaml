@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <DataGrid ItemsSource="{Binding KesPlacanja, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding CurrentIndex}" SelectedItem="{Binding SelectedKesPlacanje}" CanUserAddRows="False" SelectionMode="Single" Height="438" Margin="230,0,15,0" VerticalAlignment="Top" AutoGenerateColumns="False">
+        <DataGrid ItemsSource="{Binding KesPlacanja, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding CurrentIndex}" SelectedItem="{Binding SelectedKesPlacanje}" CanUserAddRows="False" SelectionMode="Single" Height="438" Margin="230,0,15,0" VerticalAlignment="Top" AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Binding="{Binding Id, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="150" />
                 <DataGridTextColumn Header="Vrednost" Binding="{Binding Vrednost, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="150" />
@@ -26,7 +26,7 @@
         <Label Content="IdAuta:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,217,0,0" FontSize="14" Foreground="Black" Height="36" Width="106" FontWeight="Bold" />
         <Label Content="Vrednost:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,258,0,0" FontSize="14" Foreground="Black" Height="36" Width="111" FontWeight="Bold" />
         <TextBox Name="IzmenaVrednostText" HorizontalAlignment="Left" Height="22" Margin="111,258,0,0" TextWrapping="Wrap" Text="{Binding IzmenaVrednostTekst, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="104" FontSize="14" TextAlignment="Center" Background="#FF044F9A" FontWeight="Bold" Foreground="White"/>
-        <ComboBox ItemsSource="{Binding ComboBoxData}"  SelectedValue="{Binding IzmenaTypeText}" SelectedItem="{Binding IzmenaAddItemType, Mode=TwoWay}" HorizontalAlignment="Left" Margin="111,217,0,0" VerticalAlignment="Top" Width="104" Height="24" Background="#FF7ED3D3" BorderBrush="#FFE8E6E6" />
+        <ComboBox ItemsSource="{Binding ComboBoxData2}"  SelectedValue="{Binding IzmenaTypeText}" SelectedItem="{Binding IzmenaAddItemType, Mode=TwoWay}" HorizontalAlignment="Left" Margin="111,217,0,0" VerticalAlignment="Top" Width="104" Height="24" Background="#FF7ED3D3" BorderBrush="#FFE8E6E6" />
 
         <Button Content="Izmeni" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="22" Command="{Binding EditCommand}" Background="#FFF0F0F0" Margin="15,311,0,0"/>
 

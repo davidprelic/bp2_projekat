@@ -49,8 +49,7 @@ namespace AutoKompanijaWPF.ViewModel
         public AutomobilViewModel()
         {
             ComboBoxData = new List<int>();
-            ComboBoxData.Add(0);
-
+            
             var context = new AutoKompanijaDbContext();
 
             List<AutoSalon> listaAutoSalona = context.AutoSalons.ToList();
@@ -62,7 +61,6 @@ namespace AutoKompanijaWPF.ViewModel
             AddItemType = ComboBoxData[0];
 
             List<Kupac> listaKupaca = context.Kupacs.ToList();
-            ComboBoxKupci.Add(0);
             foreach (var kupac in listaKupaca)
             {
                 ComboBoxKupci.Add(kupac.Id);
@@ -71,7 +69,6 @@ namespace AutoKompanijaWPF.ViewModel
             KupacAddItemType = ComboBoxKupci[0];
 
             List<Automobil> listaAutomobila = context.Automobils.ToList();
-            ComboBoxAutomobili.Add(0);
             foreach (var auto in listaAutomobila)
             {
                 if(auto.DatumNarucivanja == null)
@@ -236,6 +233,7 @@ namespace AutoKompanijaWPF.ViewModel
             {
                 izmenaCenaTekst = value;
                 OnPropertyChanged("IzmenaCenaTekst");
+                EditCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -268,6 +266,7 @@ namespace AutoKompanijaWPF.ViewModel
             {
                 izmenaMarkaTekst = value;
                 OnPropertyChanged("IzmenaMarkaTekst");
+                EditCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -289,6 +288,7 @@ namespace AutoKompanijaWPF.ViewModel
             {
                 izmenaModelTekst = value;
                 OnPropertyChanged("IzmenaModelTekst");
+                EditCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -408,7 +408,11 @@ namespace AutoKompanijaWPF.ViewModel
 
         private bool CanEdit()
         {
-            return CurrentIndex >= 0;
+            if (CurrentIndex >= 0 && IzmenaCenaTekst > 0 && IzmenaMarkaTekst != null && IzmenaModelTekst != null &&
+                IzmenaMarkaTekst != "" && IzmenaModelTekst != "")
+                return true;
+            else
+                return false;
         }
         #endregion
 
@@ -441,7 +445,8 @@ namespace AutoKompanijaWPF.ViewModel
 
         private bool CanAdd()
         {
-            if (MarkaText != null && ModelText != null)
+            if (MarkaText != null && ModelText != null && MarkaText != "" && ModelText != "" &&
+                CenaText >= 0)
                 return true;
             return false;
         }

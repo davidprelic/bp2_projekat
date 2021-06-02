@@ -154,6 +154,7 @@ namespace AutoKompanijaWPF.ViewModel
             {
                 izmenaBrojRaspAutoTekst = value;
                 OnPropertyChanged("IzmenaBrojRaspAutoTekst");
+                EditCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -186,6 +187,7 @@ namespace AutoKompanijaWPF.ViewModel
             {
                 izmenaGradTekst = value;
                 OnPropertyChanged("IzmenaGradTekst");
+                EditCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -207,6 +209,7 @@ namespace AutoKompanijaWPF.ViewModel
             {
                 izmenaUlicaTekst = value;
                 OnPropertyChanged("IzmenaUlicaTekst");
+                EditCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -314,7 +317,11 @@ namespace AutoKompanijaWPF.ViewModel
 
         private bool CanEdit()
         {
-            return CurrentIndex >= 0;
+            if (CurrentIndex >= 0 && IzmenaGradTekst != null && IzmenaUlicaTekst != null && IzmenaGradTekst != "" &&
+                IzmenaUlicaTekst != "" && IzmenaBrojRaspAutoTekst >= 0)
+                return true;
+            else
+                return false;
         }
         #endregion
 
@@ -347,7 +354,8 @@ namespace AutoKompanijaWPF.ViewModel
 
         private bool CanAdd()
         {
-            if (GradText != null && UlicaText != null)
+            if (GradText != null && UlicaText != null && GradText != "" && 
+                UlicaText != "" && BrojRaspAutoText >= 0)
                 return true;
             return false;
         }

@@ -31,22 +31,43 @@ namespace AutoKompanijaWPF.ViewModel
         private int izmenaKamatnaStopaTekst;
         private int izmenaPeriodOtplateTekst;
         public List<int> ComboBoxData { get; set; }
+        public List<int> ComboBoxData2 { get; set; }
         #endregion
 
         #region Constructor
         public KreditViewModel()
         {
             ComboBoxData = new List<int>();
+            ComboBoxData2 = new List<int>();
 
             var context = new AutoKompanijaDbContext();
+
+            List<Placanje> svaPlacanja = new List<Placanje>(new AutoKompanijaDbContext().Placanjes.ToList());
+            List<int> autoIdPlaceniKreditom = new List<int>();
+            foreach (var p in svaPlacanja)
+            {
+                if ((p as Kredit) != null)
+                {
+                    autoIdPlaceniKreditom.Add(p.AutomobilId);
+                }
+            }
 
             List<Automobil> listaAuta = context.Automobils.ToList();
             foreach (var auto in listaAuta)
             {
-                ComboBoxData.Add(auto.Id);
+                if(auto.DatumNarucivanja != null)
+                {
+                    if(!autoIdPlaceniKreditom.Contains(auto.Id))
+                        ComboBoxData.Add(auto.Id);
+                }
             }
 
             AddItemType = ComboBoxData[0];
+
+            foreach (var item in ComboBoxData)
+            {
+                ComboBoxData2.Add(item);
+            }
 
             AddCommand = new MyICommand(OnAdd, CanAdd);
             DeleteCommand = new MyICommand(OnDelete, CanDelete);
@@ -74,6 +95,7 @@ namespace AutoKompanijaWPF.ViewModel
                     OnPropertyChanged("CurrentIndex");
                     if (CurrentIndex >= 0)
                     {
+                        ComboBoxData2.Add(KreditPlacanja[CurrentIndex].AutomobilId);
                         IzmenaTypeText = KreditPlacanja[CurrentIndex].AutomobilId;
                         IzmenaAddItemType = KreditPlacanja[CurrentIndex].AutomobilId;
                         IzmenaKamatnaStopaTekst = KreditPlacanja[CurrentIndex].KamatnaStopa;
@@ -121,6 +143,7 @@ namespace AutoKompanijaWPF.ViewModel
                 {
                     izmenaKamatnaStopaTekst = value;
                     OnPropertyChanged("IzmenaKamatnaStopaTekst");
+                    EditCommand.RaiseCanExecuteChanged();
                 }
             }
         }
@@ -148,6 +171,7 @@ namespace AutoKompanijaWPF.ViewModel
                 {
                     izmenaPeriodOtplateTekst = value;
                     OnPropertyChanged("IzmenaPeriodOtplateTekst");
+                    EditCommand.RaiseCanExecuteChanged();
                 }
             }
         }
@@ -275,6 +299,30 @@ namespace AutoKompanijaWPF.ViewModel
                     k.PeriodOtplate = IzmenaPeriodOtplateTekst;
                     db.SaveChanges();
                 }
+
+                ComboBoxData.Clear();
+                List<Placanje> svaPlacanja = new List<Placanje>(new AutoKompanijaDbContext().Placanjes.ToList());
+                List<int> autoIdPlaceniKreditom = new List<int>();
+                foreach (var p in svaPlacanja)
+                {
+                    if ((p as Kredit) != null)
+                    {
+                        autoIdPlaceniKreditom.Add(p.AutomobilId);
+                    }
+                }
+
+                List<Automobil> listaAuta = db.Automobils.ToList();
+                foreach (var auto in listaAuta)
+                {
+                    if (auto.DatumNarucivanja != null)
+                    {
+                        if (!autoIdPlaceniKreditom.Contains(auto.Id))
+                            ComboBoxData.Add(auto.Id);
+                    }
+                }
+
+                AddItemType = ComboBoxData[0];
+
             }
 
             KreditPlacanja.Clear();
@@ -290,7 +338,11 @@ namespace AutoKompanijaWPF.ViewModel
 
         private bool CanEdit()
         {
-            return CurrentIndex >= 0;
+            if (CurrentIndex >= 0 && IzmenaKamatnaStopaTekst > 0 && IzmenaPeriodOtplateTekst > 0)
+                return true;
+            else
+                return false;
+            
         }
         #endregion
 

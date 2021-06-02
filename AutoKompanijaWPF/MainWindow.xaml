@@ -57,14 +57,14 @@
                           CommandParameter="kupac"/>
                 <MenuItem Header="Automobili" Foreground="White" Command="{Binding NavCommand}"
                           CommandParameter="automobil"/>
-                <MenuItem Header="Placanja" Foreground="White" Command="{Binding NavCommand}"
-                          CommandParameter="placanje"/>
+                <MenuItem Header="KreditPlacanja" Foreground="White" Command="{Binding NavCommand}"
+                          CommandParameter="kredit"/>
                 <MenuItem Header="LizingPlacanja" Foreground="White" Command="{Binding NavCommand}"
                           CommandParameter="lizing"/>
                 <MenuItem Header="KesPlacanja" Foreground="White" Command="{Binding NavCommand}"
                           CommandParameter="kes"/>
-                <MenuItem Header="KreditPlacanja" Foreground="White" Command="{Binding NavCommand}"
-                          CommandParameter="kredit"/>
+                <MenuItem Header="Placanja" Foreground="White" Command="{Binding NavCommand}"
+                          CommandParameter="placanje"/>
             </Menu>
         </DockPanel>
 

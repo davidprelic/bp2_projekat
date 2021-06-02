@@ -21,7 +21,7 @@ namespace AutoKompanijaWPF.ViewModel
         private int izmenaAddItemType;
         private int izmenaTypeText;
 
-        public MyICommand AddCommand { get; set; }
+        //public MyICommand AddCommand { get; set; }
         public MyICommand DeleteCommand { get; set; }
         public MyICommand EditCommand { get; set; }
 
@@ -34,20 +34,20 @@ namespace AutoKompanijaWPF.ViewModel
         #region Constructor
         public PlacanjeViewModel()
         {
-            ComboBoxData = new List<int>();
+            //ComboBoxData = new List<int>();
 
-            var context = new AutoKompanijaDbContext();
+            //var context = new AutoKompanijaDbContext();
 
-            List<Automobil> listaAuta = context.Automobils.ToList();
-            foreach (var auto in listaAuta)
-            {
-                ComboBoxData.Add(auto.Id);
-            }
+            //List<Automobil> listaAuta = context.Automobils.ToList();
+            //foreach (var auto in listaAuta)
+            //{
+            //    ComboBoxData.Add(auto.Id);
+            //}
 
-            AddItemType = ComboBoxData[0];
+            //AddItemType = ComboBoxData[0];
 
             DatumPlacanja = DateTime.Now;
-            AddCommand = new MyICommand(OnAdd, CanAdd);
+            //AddCommand = new MyICommand(OnAdd, CanAdd);
             DeleteCommand = new MyICommand(OnDelete, CanDelete);
             EditCommand = new MyICommand(OnEdit, CanEdit);
             Placanja = new ObservableCollection<Placanje>(new AutoKompanijaDbContext().Placanjes.ToList());
@@ -221,37 +221,37 @@ namespace AutoKompanijaWPF.ViewModel
         #endregion
 
         #region AddFunctions
-        private void OnAdd()
-        {
-            Kredit k = new Kredit()
-            {
-                AutomobilId = TypeText,
-                KamatnaStopa = 6,
-                PeriodOtplate = 12,
-                DatumPlacanja = DateTime.Now
-            };
-            //Placanje ak = new Placanje()
-            //{
-            //    AutomobilId = TypeText,
-            //    DatumPlacanja = DatumPlacanja
-            //};
+        //private void OnAdd()
+        //{
+        //    Kredit k = new Kredit()
+        //    {
+        //        AutomobilId = TypeText,
+        //        KamatnaStopa = 6,
+        //        PeriodOtplate = 12,
+        //        DatumPlacanja = DateTime.Now
+        //    };
+        //    //Placanje ak = new Placanje()
+        //    //{
+        //    //    AutomobilId = TypeText,
+        //    //    DatumPlacanja = DatumPlacanja
+        //    //};
 
-            var context = new AutoKompanijaDbContext();
+        //    var context = new AutoKompanijaDbContext();
 
-            context.Placanjes.Add(k);
-            context.SaveChanges();
+        //    context.Placanjes.Add(k);
+        //    context.SaveChanges();
 
-            Placanja.Clear();
-            Placanja = new ObservableCollection<Placanje>(new AutoKompanijaDbContext().Placanjes.ToList());
+        //    Placanja.Clear();
+        //    Placanja = new ObservableCollection<Placanje>(new AutoKompanijaDbContext().Placanjes.ToList());
 
-        }
+        //}
 
-        private bool CanAdd()
-        {
-            if (DatumPlacanja != null)
-                return true;
-            return false;
-        }
+        //private bool CanAdd()
+        //{
+        //    if (DatumPlacanja != null)
+        //        return true;
+        //    return false;
+        //}
         #endregion
 
         #region DeleteFunctions
@@ -276,12 +276,6 @@ namespace AutoKompanijaWPF.ViewModel
             return CurrentIndex >= 0;
         }
         #endregion
-
-
-
-
-
-
 
     }
 }

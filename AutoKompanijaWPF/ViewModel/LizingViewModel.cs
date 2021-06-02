@@ -31,22 +31,43 @@ namespace AutoKompanijaWPF.ViewModel
         private int izmenaRataLizingNakTekst;
         private string izmenaVrstaLizingaTekst;
         public List<int> ComboBoxData { get; set; }
+        public List<int> ComboBoxData2 { get; set; }
         #endregion
 
         #region Constructor
         public LizingViewModel()
         {
             ComboBoxData = new List<int>();
+            ComboBoxData2 = new List<int>();
 
             var context = new AutoKompanijaDbContext();
+
+            List<Placanje> svaPlacanja = new List<Placanje>(new AutoKompanijaDbContext().Placanjes.ToList());
+            List<int> autoIdPlaceniLizingom = new List<int>();
+            foreach (var p in svaPlacanja)
+            {
+                if ((p as Lizing) != null)
+                {
+                    autoIdPlaceniLizingom.Add(p.AutomobilId);
+                }
+            }
 
             List<Automobil> listaAuta = context.Automobils.ToList();
             foreach (var auto in listaAuta)
             {
-                ComboBoxData.Add(auto.Id);
+                if (auto.DatumNarucivanja != null)
+                {
+                    if (!autoIdPlaceniLizingom.Contains(auto.Id))
+                        ComboBoxData.Add(auto.Id);
+                }
             }
 
             AddItemType = ComboBoxData[0];
+
+            foreach (var item in ComboBoxData)
+            {
+                ComboBoxData2.Add(item);
+            }
 
             AddCommand = new MyICommand(OnAdd, CanAdd);
             DeleteCommand = new MyICommand(OnDelete, CanDelete);
@@ -74,6 +95,7 @@ namespace AutoKompanijaWPF.ViewModel
                     OnPropertyChanged("CurrentIndex");
                     if (CurrentIndex >= 0)
                     {
+                        ComboBoxData2.Add(LizingPlacanja[CurrentIndex].AutomobilId);
                         IzmenaTypeText = LizingPlacanja[CurrentIndex].AutomobilId;
                         IzmenaAddItemType = LizingPlacanja[CurrentIndex].AutomobilId;
                         IzmenaRataLizingNakTekst = LizingPlacanja[CurrentIndex].RataLizingNaknade;
@@ -147,6 +169,7 @@ namespace AutoKompanijaWPF.ViewModel
                 {
                     izmenaRataLizingNakTekst = value;
                     OnPropertyChanged("IzmenaRataLizingNakTekst");
+                    EditCommand.RaiseCanExecuteChanged();
                 }
             }
         }
@@ -174,6 +197,7 @@ namespace AutoKompanijaWPF.ViewModel
                 {
                     izmenaVrstaLizingaTekst = value;
                     OnPropertyChanged("IzmenaVrstaLizingaTekst");
+                    EditCommand.RaiseCanExecuteChanged();
                 }
             }
         }
@@ -275,6 +299,29 @@ namespace AutoKompanijaWPF.ViewModel
                     k.VrstaLizinga = IzmenaVrstaLizingaTekst;
                     db.SaveChanges();
                 }
+
+                ComboBoxData.Clear();
+                List<Placanje> svaPlacanja = new List<Placanje>(new AutoKompanijaDbContext().Placanjes.ToList());
+                List<int> autoIdPlaceniLizingom = new List<int>();
+                foreach (var p in svaPlacanja)
+                {
+                    if ((p as Lizing) != null)
+                    {
+                        autoIdPlaceniLizingom.Add(p.AutomobilId);
+                    }
+                }
+
+                List<Automobil> listaAuta = db.Automobils.ToList();
+                foreach (var auto in listaAuta)
+                {
+                    if (auto.DatumNarucivanja != null)
+                    {
+                        if (!autoIdPlaceniLizingom.Contains(auto.Id))
+                            ComboBoxData.Add(auto.Id);
+                    }
+                }
+
+                AddItemType = ComboBoxData[0];
             }
 
             LizingPlacanja.Clear();
@@ -290,7 +337,10 @@ namespace AutoKompanijaWPF.ViewModel
 
         private bool CanEdit()
         {
-            return CurrentIndex >= 0;
+            if (CurrentIndex >= 0 && IzmenaRataLizingNakTekst >= 0 && IzmenaVrstaLizingaTekst != null && IzmenaVrstaLizingaTekst != "")
+                return true;
+            else
+                return false;
         }
         #endregion
 
@@ -323,7 +373,7 @@ namespace AutoKompanijaWPF.ViewModel
 
         private bool CanAdd()
         {
-            if (RataLizingNakText > 0 && VrstaLizingaText != null)
+            if (RataLizingNakText > 0 && VrstaLizingaText != null && VrstaLizingaText != "")
                 return true;
             return false;
         }

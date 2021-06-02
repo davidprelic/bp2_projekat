@@ -18,23 +18,51 @@ namespace AutoKompanijaWPF.ViewModel
         private ObservableCollection<AutoKompanija> autoKompanije = new ObservableCollection<AutoKompanija>();
         private AutoKompanija selectedAutoKompanija;
         private int currentIndex;
+        private int kompanijaAddItemType;
+        private int kompanijaTypeText;
+        private int sluzbenikAddItemType;
+        private int sluzbenikTypeText;
 
         public MyICommand AddCommand { get; set; }
         public MyICommand DeleteCommand { get; set; }
         public MyICommand EditCommand { get; set; }
+        public MyICommand ZaposliCommand { get; set; }
 
         private string nazivText;
         private string izmenaNazivTekst;
         private DateTime izmenaDatumOsnivanja;
+        public List<int> ComboBoxKompanije { get; set; } = new List<int>();
+        public List<int> ComboBoxSluzbenici { get; set; } = new List<int>();
         #endregion
 
         #region Constructor
         public AutoKompanijaViewModel()
         {
+            var context = new AutoKompanijaDbContext();
+
+            List<AutoKompanija> listaKompanija = context.AutoKompanijas.ToList();
+            foreach (var komp in listaKompanija)
+            {
+                ComboBoxKompanije.Add(komp.Id);
+            }
+
+            KompanijaAddItemType = ComboBoxKompanije[0];
+
+            List<Sluzbenik> listaSluzbenika = context.Sluzbeniks.ToList();
+
+            foreach (var sluzb in listaSluzbenika)
+            {
+                ComboBoxSluzbenici.Add(sluzb.Id);
+            }
+
+            SluzbenikAddItemType = ComboBoxSluzbenici[0];
+
             DatumOsnivanja = DateTime.Now;
             AddCommand = new MyICommand(OnAdd, CanAdd);
             DeleteCommand = new MyICommand(OnDelete, CanDelete);
             EditCommand = new MyICommand(OnEdit, CanEdit);
+            ZaposliCommand = new MyICommand(OnZaposli, CanZaposli);
+
             AutoKompanije = new ObservableCollection<AutoKompanija>(new AutoKompanijaDbContext().AutoKompanijas.ToList());
         }
         #endregion
@@ -53,6 +81,60 @@ namespace AutoKompanijaWPF.ViewModel
             }
         }
 
+        public int KompanijaAddItemType
+        {
+            get { return kompanijaAddItemType; }
+            set
+            {
+                if (kompanijaAddItemType != value)
+                {
+                    kompanijaAddItemType = value;
+                    OnPropertyChanged("KompanijaAddItemType");
+                }
+            }
+        }
+
+        public int SluzbenikAddItemType
+        {
+            get { return sluzbenikAddItemType; }
+            set
+            {
+                if (sluzbenikAddItemType != value)
+                {
+                    sluzbenikAddItemType = value;
+                    OnPropertyChanged("SluzbenikAddItemType");
+                }
+            }
+        }
+
+        public int KompanijaTypeText
+        {
+            get { return kompanijaTypeText; }
+            set
+            {
+                if (kompanijaTypeText != value)
+                {
+                    kompanijaTypeText = value;
+                    OnPropertyChanged("KompanijaTypeText");
+                    ZaposliCommand.RaiseCanExecuteChanged();
+                }
+            }
+        }
+
+        public int SluzbenikTypeText
+        {
+            get { return sluzbenikTypeText; }
+            set
+            {
+                if (sluzbenikTypeText != value)
+                {
+                    sluzbenikTypeText = value;
+                    OnPropertyChanged("SluzbenikTypeText");
+                    ZaposliCommand.RaiseCanExecuteChanged();
+                }
+            }
+        }
+
         public string IzmenaNazivTekst
         {
             get { return izmenaNazivTekst; }
@@ -60,6 +142,7 @@ namespace AutoKompanijaWPF.ViewModel
             {
                 izmenaNazivTekst = value;
                 OnPropertyChanged("IzmenaNazivTekst");
+                EditCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -182,7 +265,10 @@ namespace AutoKompanijaWPF.ViewModel
 
         private bool CanEdit()
         {
-            return CurrentIndex >= 0;
+            if (IzmenaNazivTekst != "" && CurrentIndex >= 0)
+                return true;
+            else
+                return false;
         }
         #endregion
 
@@ -207,7 +293,7 @@ namespace AutoKompanijaWPF.ViewModel
 
         private bool CanAdd()
         {
-            if (NazivText != null && DatumOsnivanja != null)
+            if (NazivText != null && DatumOsnivanja != null && NazivText != "")
                 return true;
             return false;
         }
@@ -235,6 +321,47 @@ namespace AutoKompanijaWPF.ViewModel
             return CurrentIndex >= 0;
         }
         #endregion
+
+        #region ZaposliFunctions
+        private void OnZaposli()
+        {
+            using (var db = new AutoKompanijaDbContext())
+            {
+                var sluzbenikResult = db.Sluzbeniks.SingleOrDefault(a => a.Id == SluzbenikTypeText);
+                var kompanijaResult = db.AutoKompanijas.SingleOrDefault(a => a.Id == KompanijaTypeText);
+                if (sluzbenikResult != null && kompanijaResult != null)
+                {
+                    Zaposljava zapos = new Zaposljava()
+                    {
+                        AutoKompanijaId = kompanijaResult.Id,
+                        SluzbenikId = sluzbenikResult.Id
+                    };
+
+                    db.Zaposljavas.Add(zapos);
+                    db.SaveChanges();
+                }
+            }
+        }
+
+        private bool CanZaposli()
+        {
+            using (var db = new AutoKompanijaDbContext())
+            {
+                List<Zaposljava> zaposleni = db.Zaposljavas.ToList();
+
+                foreach (var zap in zaposleni)
+                {
+                    if (KompanijaTypeText == zap.AutoKompanijaId && SluzbenikTypeText == zap.SluzbenikId)
+                    {
+                        return false;
+                    }
+                }
+                return true;
+                
+            }
+        }
+        #endregion
+
     }
 
 }

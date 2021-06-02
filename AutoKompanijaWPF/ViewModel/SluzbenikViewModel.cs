@@ -18,25 +18,53 @@ namespace AutoKompanijaWPF.ViewModel
         private ObservableCollection<Sluzbenik> sluzbenici = new ObservableCollection<Sluzbenik>();
         private Sluzbenik selectedSluzbenik;
         private int currentIndex;
+        private int kupacAddItemType;
+        private int kupacTypeText;
+        private int sluzbenikAddItemType;
+        private int sluzbenikTypeText;
 
         public MyICommand AddCommand { get; set; }
         public MyICommand DeleteCommand { get; set; }
         public MyICommand EditCommand { get; set; }
+        public MyICommand PregovorCommand { get; set; }
+
 
         private string imeText;
         private string prezimeText;
         private string izmenaImeTekst;
         private string izmenaPrezimeTekst;
         private DateTime izmenaDatumZaposlenja;
+        public List<int> ComboBoxKupci { get; set; } = new List<int>();
+        public List<int> ComboBoxSluzbenici { get; set; } = new List<int>();
         #endregion
 
         #region Constructor
         public SluzbenikViewModel()
         {
+            var context = new AutoKompanijaDbContext();
+
+            List<Kupac> listaKupaca = context.Kupacs.ToList();
+            foreach (var kup in listaKupaca)
+            {
+                ComboBoxKupci.Add(kup.Id);
+            }
+
+            KupacAddItemType = ComboBoxKupci[0];
+
+            List<Sluzbenik> listaSluzbenika = context.Sluzbeniks.ToList();
+
+            foreach (var sluzb in listaSluzbenika)
+            {
+                ComboBoxSluzbenici.Add(sluzb.Id);
+            }
+
+            SluzbenikAddItemType = ComboBoxSluzbenici[0];
+
             DatumZaposlenja = DateTime.Now;
             AddCommand = new MyICommand(OnAdd, CanAdd);
             DeleteCommand = new MyICommand(OnDelete, CanDelete);
             EditCommand = new MyICommand(OnEdit, CanEdit);
+            PregovorCommand = new MyICommand(OnPregovor, CanPregovor);
             Sluzbenici = new ObservableCollection<Sluzbenik>(new AutoKompanijaDbContext().Sluzbeniks.ToList());
         }
         #endregion
@@ -70,6 +98,61 @@ namespace AutoKompanijaWPF.ViewModel
             {
                 izmenaImeTekst = value;
                 OnPropertyChanged("IzmenaImeTekst");
+                EditCommand.RaiseCanExecuteChanged();
+            }
+        }
+
+        public int KupacAddItemType
+        {
+            get { return kupacAddItemType; }
+            set
+            {
+                if (kupacAddItemType != value)
+                {
+                    kupacAddItemType = value;
+                    OnPropertyChanged("KupacAddItemType");
+                }
+            }
+        }
+
+        public int SluzbenikAddItemType
+        {
+            get { return sluzbenikAddItemType; }
+            set
+            {
+                if (sluzbenikAddItemType != value)
+                {
+                    sluzbenikAddItemType = value;
+                    OnPropertyChanged("SluzbenikAddItemType");
+                }
+            }
+        }
+
+        public int KupacTypeText
+        {
+            get { return kupacTypeText; }
+            set
+            {
+                if (kupacTypeText != value)
+                {
+                    kupacTypeText = value;
+                    OnPropertyChanged("KupacTypeText");
+                    PregovorCommand.RaiseCanExecuteChanged();
+                }
+            }
+        }
+
+        public int SluzbenikTypeText
+        {
+            get { return sluzbenikTypeText; }
+            set
+            {
+                if (sluzbenikTypeText != value)
+                {
+                    sluzbenikTypeText = value;
+                    OnPropertyChanged("SluzbenikTypeText");
+                    PregovorCommand.RaiseCanExecuteChanged();
+                }
             }
         }
 
@@ -91,6 +174,7 @@ namespace AutoKompanijaWPF.ViewModel
             {
                 izmenaPrezimeTekst = value;
                 OnPropertyChanged("IzmenaPrezimeTekst");
+                EditCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -220,7 +304,11 @@ namespace AutoKompanijaWPF.ViewModel
 
         private bool CanEdit()
         {
-            return CurrentIndex >= 0;
+            if (CurrentIndex >= 0 && IzmenaImeTekst != null && IzmenaPrezimeTekst != null && IzmenaImeTekst != "" && IzmenaPrezimeTekst != "" &&
+                IzmenaDatumZaposlenja != null)
+                return true;
+            else
+                return false;
         }
         #endregion
 
@@ -246,7 +334,8 @@ namespace AutoKompanijaWPF.ViewModel
 
         private bool CanAdd()
         {
-            if (ImeText != null && PrezimeText != null && DatumZaposlenja != null)
+            if (ImeText != null && PrezimeText != null && ImeText != "" && PrezimeText != "" &&
+                DatumZaposlenja != null)
                 return true;
             return false;
         }
@@ -275,7 +364,45 @@ namespace AutoKompanijaWPF.ViewModel
         }
         #endregion
 
+        #region PregovorFunctions
+        private void OnPregovor()
+        {
+            using (var db = new AutoKompanijaDbContext())
+            {
+                var sluzbenikResult = db.Sluzbeniks.SingleOrDefault(a => a.Id == SluzbenikTypeText);
+                var kupacResult = db.Kupacs.SingleOrDefault(a => a.Id == KupacTypeText);
+                if (sluzbenikResult != null && kupacResult != null)
+                {
+                    Pregovara prego = new Pregovara()
+                    {
+                        KupacId = kupacResult.Id,
+                        SluzbenikId = sluzbenikResult.Id
+                    };
 
+                    db.Pregovaras.Add(prego);
+                    db.SaveChanges();
+                }
+            }
+        }
+
+        private bool CanPregovor()
+        {
+            using (var db = new AutoKompanijaDbContext())
+            {
+                List<Pregovara> progovori = db.Pregovaras.ToList();
+
+                foreach (var preg in progovori)
+                {
+                    if (KupacTypeText == preg.KupacId && SluzbenikTypeText == preg.SluzbenikId)
+                    {
+                        return false;
+                    }
+                }
+                return true;
+
+            }
+        }
+        #endregion
 
 
 

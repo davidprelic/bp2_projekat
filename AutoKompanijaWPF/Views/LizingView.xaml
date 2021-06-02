@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <DataGrid ItemsSource="{Binding LizingPlacanja, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding CurrentIndex}" SelectedItem="{Binding SelectedLizingPlacanje}" CanUserAddRows="False" SelectionMode="Single" Height="438" Margin="230,0,15,0" VerticalAlignment="Top" AutoGenerateColumns="False">
+        <DataGrid ItemsSource="{Binding LizingPlacanja, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding CurrentIndex}" SelectedItem="{Binding SelectedLizingPlacanje}" CanUserAddRows="False" SelectionMode="Single" Height="438" Margin="230,0,15,0" VerticalAlignment="Top" AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Binding="{Binding Id, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="150" />
                 <DataGridTextColumn Header="RataLizingNaknade" Binding="{Binding RataLizingNaknade, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="150" />
@@ -31,7 +31,7 @@
         <Label Content="VrstaLizinga:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,309,0,0" FontSize="14" Foreground="Black" Height="36" Width="106" FontWeight="Bold" />
         <TextBox Name="IzmenaRataLizingNakText" HorizontalAlignment="Left" Height="22" Margin="116,282,0,0" TextWrapping="Wrap" Text="{Binding IzmenaRataLizingNakTekst, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="99" FontSize="14" TextAlignment="Center" Background="#FF044F9A" FontWeight="Bold" Foreground="White"/>
         <TextBox Name="IzmenaVrstaLizingaText" HorizontalAlignment="Left" Height="22" Margin="116,309,0,0" TextWrapping="Wrap" Text="{Binding IzmenaVrstaLizingaTekst, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="99" FontSize="14" TextAlignment="Center" Background="#FF044F9A" FontWeight="Bold" Foreground="White"/>
-        <ComboBox ItemsSource="{Binding ComboBoxData}"  SelectedValue="{Binding IzmenaTypeText}" SelectedItem="{Binding IzmenaAddItemType, Mode=TwoWay}" HorizontalAlignment="Left" Margin="111,249,0,0" VerticalAlignment="Top" Width="104" Height="24" Background="#FF7ED3D3" BorderBrush="#FFE8E6E6" />
+        <ComboBox ItemsSource="{Binding ComboBoxData2}"  SelectedValue="{Binding IzmenaTypeText}" SelectedItem="{Binding IzmenaAddItemType, Mode=TwoWay}" HorizontalAlignment="Left" Margin="111,249,0,0" VerticalAlignment="Top" Width="104" Height="24" Background="#FF7ED3D3" BorderBrush="#FFE8E6E6" />
 
         <Button Content="Izmeni" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="22" Command="{Binding EditCommand}" Background="#FFF0F0F0" Margin="10,356,0,0"/>
 

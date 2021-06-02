@@ -28,6 +28,7 @@ namespace AutoKompanijaWPF.ViewModel
         private int vrednostText;
         private int izmenaVrednostTekst;
         public List<int> ComboBoxData { get; set; }
+        public List<int> ComboBoxData2 { get; set; }
 
         #endregion
 
@@ -35,16 +36,36 @@ namespace AutoKompanijaWPF.ViewModel
         public KesViewModel()
         {
             ComboBoxData = new List<int>();
+            ComboBoxData2 = new List<int>();
 
             var context = new AutoKompanijaDbContext();
+
+            List<Placanje> svaPlacanja = new List<Placanje>(new AutoKompanijaDbContext().Placanjes.ToList());
+            List<int> autoIdPlaceniKesom = new List<int>();
+            foreach (var p in svaPlacanja)
+            {
+                if ((p as Kes) != null)
+                {
+                    autoIdPlaceniKesom.Add(p.AutomobilId);
+                }
+            }
 
             List<Automobil> listaAuta = context.Automobils.ToList();
             foreach (var auto in listaAuta)
             {
-                ComboBoxData.Add(auto.Id);
+                if (auto.DatumNarucivanja != null)
+                {
+                    if (!autoIdPlaceniKesom.Contains(auto.Id))
+                        ComboBoxData.Add(auto.Id);
+                }
             }
 
             AddItemType = ComboBoxData[0];
+
+            foreach (var item in ComboBoxData)
+            {
+                ComboBoxData2.Add(item);
+            }
 
             AddCommand = new MyICommand(OnAdd, CanAdd);
             DeleteCommand = new MyICommand(OnDelete, CanDelete);
@@ -72,6 +93,7 @@ namespace AutoKompanijaWPF.ViewModel
                     OnPropertyChanged("CurrentIndex");
                     if (CurrentIndex >= 0)
                     {
+                        ComboBoxData2.Add(KesPlacanja[CurrentIndex].AutomobilId);
                         IzmenaTypeText = KesPlacanja[CurrentIndex].AutomobilId;
                         IzmenaAddItemType = KesPlacanja[CurrentIndex].AutomobilId;
                         IzmenaVrednostTekst = KesPlacanja[CurrentIndex].Vrednost;
@@ -105,6 +127,7 @@ namespace AutoKompanijaWPF.ViewModel
                 {
                     izmenaVrednostTekst = value;
                     OnPropertyChanged("IzmenaVrednostTekst");
+                    EditCommand.RaiseCanExecuteChanged();
                 }
             }
         }
@@ -229,6 +252,30 @@ namespace AutoKompanijaWPF.ViewModel
                     k.Vrednost = IzmenaVrednostTekst;
                     db.SaveChanges();
                 }
+
+                ComboBoxData.Clear();
+                List<Placanje> svaPlacanja = new List<Placanje>(new AutoKompanijaDbContext().Placanjes.ToList());
+                List<int> autoIdPlaceniKesom = new List<int>();
+                foreach (var p in svaPlacanja)
+                {
+                    if ((p as Kes) != null)
+                    {
+                        autoIdPlaceniKesom.Add(p.AutomobilId);
+                    }
+                }
+
+                List<Automobil> listaAuta = db.Automobils.ToList();
+                foreach (var auto in listaAuta)
+                {
+                    if (auto.DatumNarucivanja != null)
+                    {
+                        if (!autoIdPlaceniKesom.Contains(auto.Id))
+                            ComboBoxData.Add(auto.Id);
+                    }
+                }
+
+                AddItemType = ComboBoxData[0];
+
             }
 
             KesPlacanja.Clear();
@@ -244,7 +291,10 @@ namespace AutoKompanijaWPF.ViewModel
 
         private bool CanEdit()
         {
-            return CurrentIndex >= 0;
+            if (CurrentIndex >= 0 && IzmenaVrednostTekst > 0)
+                return true;
+            else
+                return false;
         }
         #endregion
 

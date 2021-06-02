@@ -70,6 +70,7 @@ namespace AutoKompanijaWPF.ViewModel
             {
                 izmenaImeTekst = value;
                 OnPropertyChanged("IzmenaImeTekst");
+                EditCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -91,6 +92,7 @@ namespace AutoKompanijaWPF.ViewModel
             {
                 izmenaPrezimeTekst = value;
                 OnPropertyChanged("IzmenaPrezimeTekst");
+                EditCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -112,6 +114,7 @@ namespace AutoKompanijaWPF.ViewModel
             {
                 izmenaOmiljeniAutoTekst = value;
                 OnPropertyChanged("IzmenaOmiljeniAutoTekst");
+                EditCommand.RaiseCanExecuteChanged();
             }
         }
 
@@ -228,7 +231,11 @@ namespace AutoKompanijaWPF.ViewModel
 
         private bool CanEdit()
         {
-            return CurrentIndex >= 0;
+            if (CurrentIndex >= 0 && IzmenaImeTekst != null && IzmenaPrezimeTekst != null && IzmenaOmiljeniAutoTekst != null &&
+                IzmenaImeTekst != "" && IzmenaPrezimeTekst != "" && IzmenaOmiljeniAutoTekst != "")
+                return true;
+            else
+                return false;
         }
         #endregion
 
@@ -254,7 +261,8 @@ namespace AutoKompanijaWPF.ViewModel
 
         private bool CanAdd()
         {
-            if (ImeText != null && PrezimeText != null && OmiljeniAutoText != null)
+            if (ImeText != null && PrezimeText != null && OmiljeniAutoText != null &&
+                ImeText != "" && PrezimeText != "" && OmiljeniAutoText != "")
                 return true;
             return false;
         }
@@ -282,12 +290,6 @@ namespace AutoKompanijaWPF.ViewModel
             return CurrentIndex >= 0;
         }
         #endregion
-
-
-
-
-
-
 
     }
 }

@@ -8,7 +8,7 @@
              xmlns:system="clr-namespace:System;assembly=mscorlib"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <DataGrid ItemsSource="{Binding Sluzbenici, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding CurrentIndex}" SelectedItem="{Binding SelectedSluzbenik}" CanUserAddRows="False" SelectionMode="Single" Height="438" Margin="230,0,15,0" VerticalAlignment="Top" AutoGenerateColumns="False">
+        <DataGrid ItemsSource="{Binding Sluzbenici, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" SelectedIndex="{Binding CurrentIndex}" SelectedItem="{Binding SelectedSluzbenik}" CanUserAddRows="False" SelectionMode="Single" Height="438" Margin="230,0,15,0" VerticalAlignment="Top" AutoGenerateColumns="False" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Id" Binding="{Binding Id, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="100" />
                 <DataGridTextColumn Header="Ime" Binding="{Binding Ime, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="100" />
@@ -30,16 +30,25 @@
         <Button Content="Obrisi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="24" Command="{Binding DeleteCommand}" Background="#FFF0F0F0" Margin="10,156,0,0"/>
 
         <Label Content="Izaberite red u tabeli za izmenu:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,178,0,0" FontSize="14" Foreground="Black" Height="36" Width="220" FontWeight="Bold" />
-        <Label Content="Ime:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,214,0,0" FontSize="14" Foreground="Black" Height="36" Width="75" FontWeight="Bold" />
-        <Label Content="Prezime:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,251,0,0" FontSize="14" Foreground="Black" Height="40" Width="75" FontWeight="Bold" />
-        <Label Content="Datum:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,291,0,0" FontSize="14" Foreground="Black" Height="40" Width="75" FontWeight="Bold" />
+        <Label Content="Ime:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,199,0,0" FontSize="14" Foreground="Black" Height="36" Width="75" FontWeight="Bold" />
+        <Label Content="Prezime:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,227,0,0" FontSize="14" Foreground="Black" Height="40" Width="75" FontWeight="Bold" />
+        <Label Content="Datum:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,256,0,0" FontSize="14" Foreground="Black" Height="40" Width="75" FontWeight="Bold" />
         <TextBlock Text="{Binding CurrentECM.ValidationErrors[Name]}" Foreground="Red" Margin="0,189,595,236" />
-        <TextBox Name="IzmenaImeText" HorizontalAlignment="Left" Height="22" Margin="70,219,0,0" TextWrapping="Wrap" Text="{Binding IzmenaImeTekst, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="140" FontSize="14" TextAlignment="Center" Background="#FF044F9A" FontWeight="Bold" Foreground="White"/>
-        <TextBox Name="IzmenaPrezimeText" HorizontalAlignment="Left" Height="22" Margin="70,255,0,0" TextWrapping="Wrap" Text="{Binding IzmenaPrezimeTekst, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="140" FontSize="14" TextAlignment="Center" Background="#FF044F9A" FontWeight="Bold" Foreground="White"/>
+        <TextBox Name="IzmenaImeText" HorizontalAlignment="Left" Height="22" Margin="70,205,0,0" TextWrapping="Wrap" Text="{Binding IzmenaImeTekst, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="140" FontSize="14" TextAlignment="Center" Background="#FF044F9A" FontWeight="Bold" Foreground="White"/>
+        <TextBox Name="IzmenaPrezimeText" HorizontalAlignment="Left" Height="22" Margin="70,232,0,0" TextWrapping="Wrap" Text="{Binding IzmenaPrezimeTekst, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="140" FontSize="14" TextAlignment="Center" Background="#FF044F9A" FontWeight="Bold" Foreground="White"/>
 
-        <DatePicker SelectedDate="{Binding IzmenaDatumZaposlenja, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, TargetNullValue={x:Static system:DateTime.Now}}" Height="28" HorizontalAlignment="Left" Margin="70,295,0,0" Name="izmenaDatumZaposlenja" VerticalAlignment="Top" Width="140" />
+        <DatePicker SelectedDate="{Binding IzmenaDatumZaposlenja, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, TargetNullValue={x:Static system:DateTime.Now}}" Height="28" HorizontalAlignment="Left" Margin="70,259,0,0" Name="izmenaDatumZaposlenja" VerticalAlignment="Top" Width="140" />
 
-        <Button Content="Izmeni" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="22" Command="{Binding EditCommand}" Background="#FFF0F0F0" Margin="10,355,0,0"/>
+        <Button Content="Izmeni" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="22" Command="{Binding EditCommand}" Background="#FFF0F0F0" Margin="10,296,0,0"/>
+
+        <Label Content="Pregovor kupca i sluzbenika:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,322,0,0" FontSize="14" Foreground="Black" Height="29" Width="205" FontWeight="Bold" />
+        <Label Content="KupacId:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,351,0,0" FontSize="14" Foreground="Black" Height="36" Width="106" FontWeight="Bold" />
+        <Label Content="SluzbenikId:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,375,0,0" FontSize="14" Foreground="Black" Height="36" Width="94" FontWeight="Bold" />
+
+        <ComboBox ItemsSource="{Binding ComboBoxKupci}"  SelectedValue="{Binding KupacTypeText}" SelectedItem="{Binding KupacAddItemType, Mode=TwoWay}" HorizontalAlignment="Left" Margin="111,351,0,0" VerticalAlignment="Top" Width="99" Height="25" Background="#FF7ED3D3" BorderBrush="#FFE8E6E6" />
+        <ComboBox ItemsSource="{Binding ComboBoxSluzbenici}"  SelectedValue="{Binding SluzbenikTypeText}" SelectedItem="{Binding SluzbenikAddItemType, Mode=TwoWay}" HorizontalAlignment="Left" Margin="111,381,0,0" VerticalAlignment="Top" Width="99" Height="25" Background="#FF7ED3D3" BorderBrush="#FFE8E6E6" />
+
+        <Button Content="Pregovor" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="22" Command="{Binding PregovorCommand}" Background="#FFF0F0F0" Margin="10,411,0,0"/>
 
 
     </Grid>
