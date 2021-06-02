@@ -17,6 +17,10 @@ namespace AutoKompanijaWPF.ViewModel
         private ObservableCollection<Kredit> kreditPlacanja = new ObservableCollection<Kredit>();
         private Kredit selectedKreditPlacanje;
         private int currentIndex;
+        private int addItemType;
+        private int typeText;
+        private int izmenaAddItemType;
+        private int izmenaTypeText;
 
         public MyICommand AddCommand { get; set; }
         public MyICommand DeleteCommand { get; set; }
@@ -36,18 +40,25 @@ namespace AutoKompanijaWPF.ViewModel
 
             var context = new AutoKompanijaDbContext();
 
-            //List<AutoKompanija> listaAutoKomp = context.AutoKompanijas.ToList();
-            //foreach (var autoKomp in listaAutoKomp)
-            //{
-            //    ComboBoxData.Add(autoKomp.Naziv);
-            //}
+            List<Automobil> listaAuta = context.Automobils.ToList();
+            foreach (var auto in listaAuta)
+            {
+                ComboBoxData.Add(auto.Id);
+            }
 
-            //AddItemType = ComboBoxData[0];
+            AddItemType = ComboBoxData[0];
 
             AddCommand = new MyICommand(OnAdd, CanAdd);
             DeleteCommand = new MyICommand(OnDelete, CanDelete);
             EditCommand = new MyICommand(OnEdit, CanEdit);
-            KreditPlacanja = new ObservableCollection<Kredit>(new AutoKompanijaDbContext().Placanjes.ToList());
+            List<Placanje> plc = new List<Placanje>(new AutoKompanijaDbContext().Placanjes.ToList());
+            foreach (var p in plc)
+            {
+                if((p as Kredit) != null)
+                {
+                    KreditPlacanja.Add(p as Kredit);
+                }
+            }
         }
         #endregion
 
@@ -61,6 +72,121 @@ namespace AutoKompanijaWPF.ViewModel
                 {
                     currentIndex = value;
                     OnPropertyChanged("CurrentIndex");
+                    if (CurrentIndex >= 0)
+                    {
+                        IzmenaTypeText = KreditPlacanja[CurrentIndex].AutomobilId;
+                        IzmenaAddItemType = KreditPlacanja[CurrentIndex].AutomobilId;
+                        IzmenaKamatnaStopaTekst = KreditPlacanja[CurrentIndex].KamatnaStopa;
+                        IzmenaPeriodOtplateTekst = KreditPlacanja[CurrentIndex].PeriodOtplate;
+                    }
+                    DeleteCommand.RaiseCanExecuteChanged();
+                    EditCommand.RaiseCanExecuteChanged();
+                }
+            }
+        }
+
+        public int AddItemType
+        {
+            get { return addItemType; }
+            set
+            {
+                if (addItemType != value)
+                {
+                    addItemType = value;
+                    OnPropertyChanged("AddItemType");
+                }
+            }
+        }
+
+        public int KamatnaStopaText
+        {
+            get { return kamatnaStopaText; }
+            set
+            {
+                if (kamatnaStopaText != value)
+                {
+                    kamatnaStopaText = value;
+                    OnPropertyChanged("KamatnaStopaText");
+                    AddCommand.RaiseCanExecuteChanged();
+                }
+            }
+        }
+
+        public int IzmenaKamatnaStopaTekst
+        {
+            get { return izmenaKamatnaStopaTekst; }
+            set
+            {
+                if (izmenaKamatnaStopaTekst != value)
+                {
+                    izmenaKamatnaStopaTekst = value;
+                    OnPropertyChanged("IzmenaKamatnaStopaTekst");
+                }
+            }
+        }
+
+        public int PeriodOtplateText
+        {
+            get { return periodOtplateText; }
+            set
+            {
+                if (periodOtplateText != value)
+                {
+                    periodOtplateText = value;
+                    OnPropertyChanged("PeriodOtplateText");
+                    AddCommand.RaiseCanExecuteChanged();
+                }
+            }
+        }
+
+        public int IzmenaPeriodOtplateTekst
+        {
+            get { return izmenaPeriodOtplateTekst; }
+            set
+            {
+                if (izmenaPeriodOtplateTekst != value)
+                {
+                    izmenaPeriodOtplateTekst = value;
+                    OnPropertyChanged("IzmenaPeriodOtplateTekst");
+                }
+            }
+        }
+
+        public int TypeText
+        {
+            get { return typeText; }
+            set
+            {
+                if (typeText != value)
+                {
+                    typeText = value;
+                    OnPropertyChanged("TypeText");
+                }
+            }
+        }
+
+        public int IzmenaAddItemType
+        {
+            get { return izmenaAddItemType; }
+            set
+            {
+                if (izmenaAddItemType != value)
+                {
+                    izmenaAddItemType = value;
+                    OnPropertyChanged("IzmenaAddItemType");
+                }
+            }
+        }
+
+        public int IzmenaTypeText
+        {
+            get { return izmenaTypeText; }
+            set
+            {
+                if (izmenaTypeText != value)
+                {
+                    izmenaTypeText = value;
+                    OnPropertyChanged("IzmenaTypeText");
                 }
             }
         }
@@ -134,21 +260,104 @@ namespace AutoKompanijaWPF.ViewModel
         #endregion
 
         #region EditFunctions
+        private void OnEdit()
+        {
+            int selectedIndex = KreditPlacanja[CurrentIndex].Id;
 
+            using (var db = new AutoKompanijaDbContext())
+            {
+                var result = db.Placanjes.SingleOrDefault(a => a.Id == selectedIndex);
+                if (result != null)
+                {
+                    Kredit k = (Kredit)result;
+                    k.AutomobilId = IzmenaTypeText;
+                    k.KamatnaStopa = IzmenaKamatnaStopaTekst;
+                    k.PeriodOtplate = IzmenaPeriodOtplateTekst;
+                    db.SaveChanges();
+                }
+            }
+
+            KreditPlacanja.Clear();
+            List<Placanje> plc = new List<Placanje>(new AutoKompanijaDbContext().Placanjes.ToList());
+            foreach (var p in plc)
+            {
+                if ((p as Kredit) != null)
+                {
+                    KreditPlacanja.Add(p as Kredit);
+                }
+            }
+        }
+
+        private bool CanEdit()
+        {
+            return CurrentIndex >= 0;
+        }
         #endregion
 
         #region AddFunctions
+        private void OnAdd()
+        {
+            Kredit k = new Kredit()
+            {
+                AutomobilId = TypeText,
+                KamatnaStopa = KamatnaStopaText,
+                PeriodOtplate = PeriodOtplateText,
+                DatumPlacanja = DateTime.Now
+            };
+            
+            var context = new AutoKompanijaDbContext();
 
+            context.Placanjes.Add(k);
+            context.SaveChanges();
+
+            KreditPlacanja.Clear();
+            List<Placanje> plc = new List<Placanje>(new AutoKompanijaDbContext().Placanjes.ToList());
+            foreach (var p in plc)
+            {
+                if ((p as Kredit) != null)
+                {
+                    KreditPlacanja.Add(p as Kredit);
+                }
+            }
+        }
+
+        private bool CanAdd()
+        {
+            if (KamatnaStopaText > 0 && PeriodOtplateText > 0)
+                return true;
+            return false;
+        }
         #endregion
 
         #region DeleteFunctions
+        private void OnDelete()
+        {
+            var context = new AutoKompanijaDbContext();
 
+            int selectedIndex = KreditPlacanja[CurrentIndex].Id;
+
+            Placanje ak = context.Placanjes.Where(x => x.Id == selectedIndex).FirstOrDefault();
+
+            context.Placanjes.Attach(ak);
+            context.Placanjes.Remove(ak);
+            context.SaveChanges();
+
+            KreditPlacanja.Clear();
+            List<Placanje> plc = new List<Placanje>(new AutoKompanijaDbContext().Placanjes.ToList());
+            foreach (var p in plc)
+            {
+                if ((p as Kredit) != null)
+                {
+                    KreditPlacanja.Add(p as Kredit);
+                }
+            }
+        }
+
+        private bool CanDelete()
+        {
+            return CurrentIndex >= 0;
+        }
         #endregion
-
-
-
-
-
 
     }
 }

@@ -38,7 +38,7 @@ namespace AutoKompanijaWPF.ViewModel
 
             var context = new AutoKompanijaDbContext();
 
-            List<Automobil> listaAuta = context.Automobils.Where(x => !x.DatumNarucivanja.HasValue).ToList();
+            List<Automobil> listaAuta = context.Automobils.ToList();
             foreach (var auto in listaAuta)
             {
                 ComboBoxData.Add(auto.Id);
@@ -223,15 +223,22 @@ namespace AutoKompanijaWPF.ViewModel
         #region AddFunctions
         private void OnAdd()
         {
-            Placanje ak = new Placanje()
+            Kredit k = new Kredit()
             {
                 AutomobilId = TypeText,
-                DatumPlacanja = DatumPlacanja
+                KamatnaStopa = 6,
+                PeriodOtplate = 12,
+                DatumPlacanja = DateTime.Now
             };
+            //Placanje ak = new Placanje()
+            //{
+            //    AutomobilId = TypeText,
+            //    DatumPlacanja = DatumPlacanja
+            //};
 
             var context = new AutoKompanijaDbContext();
 
-            context.Placanjes.Add(ak);
+            context.Placanjes.Add(k);
             context.SaveChanges();
 
             Placanja.Clear();

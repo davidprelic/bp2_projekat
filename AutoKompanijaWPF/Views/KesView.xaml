@@ -13,5 +13,23 @@
                 <DataGridTextColumn Header="Vrednost" Binding="{Binding Vrednost, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" Width="150" />
             </DataGrid.Columns>
         </DataGrid>
+
+        <Label Content="idAuta:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,10,0,0" FontSize="14" Foreground="Black" Height="36" Width="106" FontWeight="Bold" />
+        <Label Content="Vrednost:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,40,0,0" FontSize="14" Foreground="Black" Height="36" Width="111" FontWeight="Bold" />
+        <TextBox Name="VrednostText" HorizontalAlignment="Left" Height="22" Margin="111,45,0,0" TextWrapping="Wrap" Text="{Binding VrednostText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="104" FontSize="14" TextAlignment="Center" Background="#FF044F9A" FontWeight="Bold" Foreground="White"/>
+        <ComboBox ItemsSource="{Binding ComboBoxData}"  SelectedValue="{Binding TypeText}" SelectedItem="{Binding AddItemType, Mode=TwoWay}" HorizontalAlignment="Left" Margin="111,15,0,0" VerticalAlignment="Top" Width="104" Height="25" Background="#FF7ED3D3" BorderBrush="#FFE8E6E6" />
+
+        <Button Content="Dodaj" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="22" Command="{Binding AddCommand}" Background="#FFF0F0F0" Margin="10,98,0,0"/>
+        <Button Content="Obrisi" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="24" Command="{Binding DeleteCommand}" Background="#FFF0F0F0" Margin="10,136,0,0"/>
+
+        <Label Content="Izaberite red u tabeli za izmenu:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,183,0,0" FontSize="14" Foreground="Black" Height="29" Width="220" FontWeight="Bold" />
+        <Label Content="IdAuta:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,217,0,0" FontSize="14" Foreground="Black" Height="36" Width="106" FontWeight="Bold" />
+        <Label Content="Vrednost:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,258,0,0" FontSize="14" Foreground="Black" Height="36" Width="111" FontWeight="Bold" />
+        <TextBox Name="IzmenaVrednostText" HorizontalAlignment="Left" Height="22" Margin="111,258,0,0" TextWrapping="Wrap" Text="{Binding IzmenaVrednostTekst, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" VerticalAlignment="Top" Width="104" FontSize="14" TextAlignment="Center" Background="#FF044F9A" FontWeight="Bold" Foreground="White"/>
+        <ComboBox ItemsSource="{Binding ComboBoxData}"  SelectedValue="{Binding IzmenaTypeText}" SelectedItem="{Binding IzmenaAddItemType, Mode=TwoWay}" HorizontalAlignment="Left" Margin="111,217,0,0" VerticalAlignment="Top" Width="104" Height="24" Background="#FF7ED3D3" BorderBrush="#FFE8E6E6" />
+
+        <Button Content="Izmeni" HorizontalAlignment="Left" VerticalAlignment="Top" Width="200" Height="22" Command="{Binding EditCommand}" Background="#FFF0F0F0" Margin="15,311,0,0"/>
+
+
     </Grid>
 </UserControl>

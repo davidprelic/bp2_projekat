@@ -375,11 +375,5 @@ namespace AutoKompanijaWPF.ViewModel
             return CurrentIndex >= 0;
         }
         #endregion
-
-
-
-
-
-
     }
 }

@@ -10,17 +10,57 @@ namespace AutoKompanijaWPF.ViewModel
 {
     public class KesViewModel : BindableBase
     {
+        #region Fields
         private int id;
         private int vrednost;
         private ObservableCollection<Kes> kesPlacanja = new ObservableCollection<Kes>();
         private Kes selectedKesPlacanje;
         private int currentIndex;
+        private int addItemType;
+        private int typeText;
+        private int izmenaAddItemType;
+        private int izmenaTypeText;
 
+        public MyICommand AddCommand { get; set; }
+        public MyICommand DeleteCommand { get; set; }
+        public MyICommand EditCommand { get; set; }
+
+        private int vrednostText;
+        private int izmenaVrednostTekst;
+        public List<int> ComboBoxData { get; set; }
+
+        #endregion
+
+        #region Constructor
         public KesViewModel()
         {
+            ComboBoxData = new List<int>();
 
+            var context = new AutoKompanijaDbContext();
+
+            List<Automobil> listaAuta = context.Automobils.ToList();
+            foreach (var auto in listaAuta)
+            {
+                ComboBoxData.Add(auto.Id);
+            }
+
+            AddItemType = ComboBoxData[0];
+
+            AddCommand = new MyICommand(OnAdd, CanAdd);
+            DeleteCommand = new MyICommand(OnDelete, CanDelete);
+            EditCommand = new MyICommand(OnEdit, CanEdit);
+            List<Placanje> plc = new List<Placanje>(new AutoKompanijaDbContext().Placanjes.ToList());
+            foreach (var p in plc)
+            {
+                if ((p as Kes) != null)
+                {
+                    KesPlacanja.Add(p as Kes);
+                }
+            }
         }
+        #endregion
 
+        #region Props
         public int CurrentIndex
         {
             get { return currentIndex; }
@@ -30,6 +70,93 @@ namespace AutoKompanijaWPF.ViewModel
                 {
                     currentIndex = value;
                     OnPropertyChanged("CurrentIndex");
+                    if (CurrentIndex >= 0)
+                    {
+                        IzmenaTypeText = KesPlacanja[CurrentIndex].AutomobilId;
+                        IzmenaAddItemType = KesPlacanja[CurrentIndex].AutomobilId;
+                        IzmenaVrednostTekst = KesPlacanja[CurrentIndex].Vrednost;
+                    }
+                    DeleteCommand.RaiseCanExecuteChanged();
+                    EditCommand.RaiseCanExecuteChanged();
+                }
+            }
+        }
+
+        public int VrednostText
+        {
+            get { return vrednostText; }
+            set
+            {
+                if (vrednostText != value)
+                {
+                    vrednostText = value;
+                    OnPropertyChanged("VrednostText");
+                    AddCommand.RaiseCanExecuteChanged();
+                }
+            }
+        }
+
+        public int IzmenaVrednostTekst
+        {
+            get { return izmenaVrednostTekst; }
+            set
+            {
+                if (izmenaVrednostTekst != value)
+                {
+                    izmenaVrednostTekst = value;
+                    OnPropertyChanged("IzmenaVrednostTekst");
+                }
+            }
+        }
+
+        public int AddItemType
+        {
+            get { return addItemType; }
+            set
+            {
+                if (addItemType != value)
+                {
+                    addItemType = value;
+                    OnPropertyChanged("AddItemType");
+                }
+            }
+        }
+
+        public int TypeText
+        {
+            get { return typeText; }
+            set
+            {
+                if (typeText != value)
+                {
+                    typeText = value;
+                    OnPropertyChanged("TypeText");
+                }
+            }
+        }
+
+        public int IzmenaAddItemType
+        {
+            get { return izmenaAddItemType; }
+            set
+            {
+                if (izmenaAddItemType != value)
+                {
+                    izmenaAddItemType = value;
+                    OnPropertyChanged("IzmenaAddItemType");
+                }
+            }
+        }
+
+        public int IzmenaTypeText
+        {
+            get { return izmenaTypeText; }
+            set
+            {
+                if (izmenaTypeText != value)
+                {
+                    izmenaTypeText = value;
+                    OnPropertyChanged("IzmenaTypeText");
                 }
             }
         }
@@ -85,6 +212,105 @@ namespace AutoKompanijaWPF.ViewModel
                 }
             }
         }
+        #endregion
+
+        #region EditFunctions
+        private void OnEdit()
+        {
+            int selectedIndex = KesPlacanja[CurrentIndex].Id;
+
+            using (var db = new AutoKompanijaDbContext())
+            {
+                var result = db.Placanjes.SingleOrDefault(a => a.Id == selectedIndex);
+                if (result != null)
+                {
+                    Kes k = (Kes)result;
+                    k.AutomobilId = IzmenaTypeText;
+                    k.Vrednost = IzmenaVrednostTekst;
+                    db.SaveChanges();
+                }
+            }
+
+            KesPlacanja.Clear();
+            List<Placanje> plc = new List<Placanje>(new AutoKompanijaDbContext().Placanjes.ToList());
+            foreach (var p in plc)
+            {
+                if ((p as Kes) != null)
+                {
+                    KesPlacanja.Add(p as Kes);
+                }
+            }
+        }
+
+        private bool CanEdit()
+        {
+            return CurrentIndex >= 0;
+        }
+        #endregion
+
+        #region AddFunctions
+        private void OnAdd()
+        {
+            Kes k = new Kes()
+            {
+                AutomobilId = TypeText,
+                Vrednost = VrednostText,
+                DatumPlacanja = DateTime.Now
+            };
+
+            var context = new AutoKompanijaDbContext();
+
+            context.Placanjes.Add(k);
+            context.SaveChanges();
+
+            KesPlacanja.Clear();
+            List<Placanje> plc = new List<Placanje>(new AutoKompanijaDbContext().Placanjes.ToList());
+            foreach (var p in plc)
+            {
+                if ((p as Kes) != null)
+                {
+                    KesPlacanja.Add(p as Kes);
+                }
+            }
+        }
+
+        private bool CanAdd()
+        {
+            if (VrednostText > 0)
+                return true;
+            return false;
+        }
+        #endregion
+
+        #region DeleteFunctions
+        private void OnDelete()
+        {
+            var context = new AutoKompanijaDbContext();
+
+            int selectedIndex = KesPlacanja[CurrentIndex].Id;
+
+            Placanje ak = context.Placanjes.Where(x => x.Id == selectedIndex).FirstOrDefault();
+
+            context.Placanjes.Attach(ak);
+            context.Placanjes.Remove(ak);
+            context.SaveChanges();
+
+            KesPlacanja.Clear();
+            List<Placanje> plc = new List<Placanje>(new AutoKompanijaDbContext().Placanjes.ToList());
+            foreach (var p in plc)
+            {
+                if ((p as Kes) != null)
+                {
+                    KesPlacanja.Add(p as Kes);
+                }
+            }
+        }
+
+        private bool CanDelete()
+        {
+            return CurrentIndex >= 0;
+        }
+        #endregion
 
     }
 }
